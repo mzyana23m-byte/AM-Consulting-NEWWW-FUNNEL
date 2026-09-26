@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Privacy Policy | AM Consulting</title>
+<meta name="description" content="How AM Consulting collects, uses and protects your personal information.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#08090C;--panel:#0E1016;--line:rgba(190,205,230,.11);--line-2:rgba(190,205,230,.20);
+  --paper:#E8EBF0;--steel:#8590A3;--steel-dim:#5D6675;--blue:#2E5CA8;--blue-hi:#5D93E4;--amber:#C79447;
+  --sans:"Archivo","Helvetica Neue",Arial,sans-serif;--serif:"Instrument Serif",Georgia,serif;
+  --gut:clamp(20px,5vw,48px);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --void:#08090C; --paper:#E8EBF0 } }
+:root[data-theme="dark"]{ --void:#08090C; --paper:#E8EBF0 }
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+html,body{margin:0;padding:0}
+body{background:var(--void);color:#C3CAD6;font-family:var(--sans);font-size:17px;line-height:1.65;
+  -webkit-font-smoothing:antialiased;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+a{color:var(--blue-hi)}
+a:hover{color:#8FB4EE}
+:focus-visible{outline:2px solid var(--blue-hi);outline-offset:3px;border-radius:2px}
+::selection{background:var(--blue);color:#fff}
+img{max-width:100%;display:block}
+.wrap{max-width:760px;margin:0 auto;padding:0 var(--gut)}
+header.site{border-bottom:1px solid var(--line);background:#060709}
+.brand{display:flex;align-items:center;gap:.8rem;text-decoration:none;padding:1.1rem 0;color:var(--paper)}
+.brand .plate{width:42px;height:42px;flex:0 0 auto;border:1px solid rgba(93,147,228,.30);background:#1B2029;
+  display:grid;place-items:center;overflow:hidden;border-radius:12px;box-shadow:0 0 26px -6px rgba(46,92,168,.7)}
+.brand .plate img{width:40px}
+.brand b{font-variation-settings:"wdth" 108,"wght" 700;letter-spacing:-.02em;font-size:1.06rem;font-weight:400}
+main{padding:clamp(34px,6vh,60px) 0 clamp(50px,9vh,90px)}
+h1{margin:0;color:#fff;font-variation-settings:"wdth" 112,"wght" 760;letter-spacing:-.03em;line-height:1.05;
+  font-size:clamp(1.9rem,4.2vw,2.8rem)}
+.updated{margin:.9rem 0 0;color:var(--steel-dim);font-size:.9rem}
+.lede{margin:1.4rem 0 0;color:var(--paper);font-size:1.06rem}
+h2{margin:clamp(34px,5vh,46px) 0 .7rem;color:#fff;font-variation-settings:"wdth" 106,"wght" 680;
+  letter-spacing:-.022em;line-height:1.15;font-size:clamp(1.2rem,2.2vw,1.42rem);scroll-margin-top:1rem}
+h3{margin:1.6rem 0 .5rem;color:var(--paper);font-size:1.02rem;font-variation-settings:"wdth" 104,"wght" 640}
+p{margin:0 0 1em}
+ul{margin:0 0 1em;padding:0;list-style:none}
+li{position:relative;padding-left:22px;margin-bottom:.5rem}
+li::before{content:"";position:absolute;left:0;top:.68em;width:6px;height:6px;transform:rotate(45deg);background:var(--blue-hi)}
+strong{color:#fff;font-weight:600}
+hr{border:0;border-top:1px solid var(--line);margin:clamp(30px,5vh,44px) 0}
+.toc{margin:1.8rem 0 0;padding:1.1rem 1.3rem;border:1px solid var(--line);border-radius:12px;background:linear-gradient(165deg,var(--panel),#090B10)}
+.toc p{margin:0 0 .6rem;color:var(--steel-dim);font-size:.82rem;letter-spacing:.08em;text-transform:uppercase}
+.toc ol{margin:0;padding-left:1.2rem;color:var(--steel)}
+.toc li{padding-left:0;margin-bottom:.32rem}
+.toc li::before{display:none}
+.note{border:1px solid var(--line-2);border-left:3px solid var(--amber);border-radius:0 10px 10px 0;
+  padding:1rem 1.2rem;margin:1.6rem 0;background:rgba(199,148,71,.05)}
+.note p:last-child{margin:0}
+table{width:100%;border-collapse:collapse;margin:0 0 1.4rem;font-size:.95rem;display:block;overflow-x:auto}
+th,td{text-align:left;padding:.7rem .8rem;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:#fff;font-variation-settings:"wght" 620;white-space:nowrap}
+footer.site{border-top:1px solid var(--line);background:#060709;padding:2.2rem 0 2.8rem;
+  color:var(--steel-dim);font-size:.9rem}
+footer.site nav{display:flex;gap:1.2rem;flex-wrap:wrap;margin-bottom:.9rem}
+footer.site a{color:#A9B6C8;text-decoration:underline;text-underline-offset:2px}
+footer.site p{margin:0 0 .5rem;max-width:64ch}
+
+</style>
+<!-- =====================================================================
+     AM CONSULTING — BROWSER TRACKING
+     Meta dataset 2124222655634274. One initialisation per page.
+
+     No banner and no popup anywhere.
+
+     Where our approved configuration allows automatic measurement, the pixel
+     loads on arrival and fires one PageView. That is the United States, and
+     Canada outside Quebec. Everyone else, including Quebec, the EEA, the UK
+     and any visitor whose region we cannot determine, gets nothing until they
+     switch it on at /privacy-choices.
+
+     A stored opt-out and Global Privacy Control both override automatic
+     loading. The region comes from middleware.js, which copies Vercel's edge
+     country into a short-lived cookie. Without that file no region is known,
+     so nothing loads automatically.
+
+     There is no <noscript> image beacon: a beacon fires regardless of
+     choice, which would defeat the opt-in.
+     Advanced Matching is deliberately not enabled.
+     ===================================================================== -->
+<script>
+window.AM_PIXEL_ID        = '2124222655634274';
+window.AM_CONSENT_VERSION = 1;
+</script>
+<script>
+(function(){
+  "use strict";
+  if (window.__amTrack) return;          /* duplicate-install guard */
+  window.__amTrack = true;
+
+  var mem = {};
+  var LS = {
+    get: function(k){ try { var v = localStorage.getItem(k); return v === null ? (k in mem ? mem[k] : null) : v; } catch(e){ return k in mem ? mem[k] : null; } },
+    set: function(k,v){ mem[k] = v; try { localStorage.setItem(k,v); } catch(e){} },
+    del: function(k){ delete mem[k]; try { localStorage.removeItem(k); } catch(e){} }
+  };
+  var J = {
+    get: function(k){ try { return JSON.parse(LS.get(k) || 'null'); } catch(e){ return null; } },
+    set: function(k,v){ try { LS.set(k, JSON.stringify(v)); } catch(e){} }
+  };
+
+  /* ---------- 1. attribution, stored locally only ---------------------- */
+  var K_FIRST='am_attr_first_ever', K_PAID='am_attr_first_paid',
+      K_LAST='am_attr_last', K_BOOK='am_attr_booking', K_LEAD='am_lead_id';
+
+  var UTM   = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+  var CLICK = ['fbclid','gclid','msclkid','ttclid','li_fat_id'];
+  var PAID_MEDIUMS = ['cpc','ppc','paid','paidsocial','paid_social','paid-social','display','cpm','retargeting','remarketing'];
+  /* exact hostnames only, no substring matching */
+  var BOOKING_HOSTS = ['api.leadconnectorhq.com','widgets.leadconnectorhq.com',
+                       'link.msgsndr.com','api.msgsndr.com'];
+  function isBookingHost(h){ return BOOKING_HOSTS.indexOf(String(h).toLowerCase()) > -1; }
+  function isBookingHref(href){
+    if (!href) return false;
+    var u; try { u = new URL(href, location.href); } catch(e){ return false; }
+    return isBookingHost(u.hostname);
+  }
+
+  var q;
+  try { q = new URLSearchParams(location.search); } catch(e){ q = { get: function(){ return null; } }; }
+
+  function readTouch(){
+    var t = {}, i, hasUtm = false, hasClick = false;
+    for (i=0;i<UTM.length;i++)   if (q.get(UTM[i]))   { t[UTM[i]]   = String(q.get(UTM[i])).slice(0,200); hasUtm = true; }
+    for (i=0;i<CLICK.length;i++) if (q.get(CLICK[i])) { t[CLICK[i]] = String(q.get(CLICK[i])).slice(0,400); hasClick = true; }
+    if (hasUtm || hasClick) {
+      t.channel = (hasClick || PAID_MEDIUMS.indexOf(String(t.utm_medium||'').toLowerCase()) > -1) ? 'paid' : 'campaign';
+    } else {
+      var host = '';
+      try { host = document.referrer ? new URL(document.referrer).hostname : ''; } catch(e){}
+      if (host && host !== location.hostname) { t.referrer_host = host; t.channel = 'referral'; }
+      else { t.channel = 'direct'; }
+    }
+    t.landed_at = new Date().toISOString();
+    t.landing_path = location.pathname;
+    return t;
+  }
+
+  var touch = readTouch();
+
+  /* Optional attribution is not written to the device until advertising
+     measurement is allowed. Until then it lives in memory for this page view
+     only, so a visitor who never opts in leaves nothing behind. */
+  var pending = null;
+  function persistTouch(){
+    if (!J.get(K_FIRST)) J.set(K_FIRST, touch);
+    if (touch.channel === 'paid' && !J.get(K_PAID)) J.set(K_PAID, touch);
+    if (touch.channel !== 'direct') J.set(K_LAST, touch);
+    LS.set(K_LEAD, leadId);
+    pending = null;
+  }
+  function forgetTouch(){
+    LS.del(K_FIRST); LS.del(K_PAID); LS.del(K_LAST); LS.del(K_BOOK); LS.del(K_LEAD);
+  }
+
+  var leadId = LS.get(K_LEAD);
+  if (!leadId) leadId = 'am_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,10);
+  function bookingSource(){ return J.get(K_LAST) || J.get(K_PAID) || J.get(K_FIRST) || touch || {}; }
+
+  window.AMAttribution = {
+    leadId:    function(){ return leadId; },
+    firstEver: function(){ return J.get(K_FIRST) || touch; },
+    firstPaid: function(){ return J.get(K_PAID);  },
+    last:      function(){ return J.get(K_LAST) || (touch.channel !== 'direct' ? touch : null); },
+    booking:   function(){ return J.get(K_BOOK);  },
+    clear:     function(){ LS.del(K_FIRST); LS.del(K_PAID); LS.del(K_LAST); LS.del(K_BOOK); LS.del(K_LEAD); },
+    decorate:  function(url){
+      if (!url) return url;
+      var u; try { u = new URL(url, location.href); } catch(e){ return url; }
+      if (!isBookingHost(u.hostname)) return url;
+      var src = bookingSource(), i;
+      for (i=0;i<UTM.length;i++) if (src[UTM[i]] && !u.searchParams.get(UTM[i])) u.searchParams.set(UTM[i], src[UTM[i]]);
+      if (!u.searchParams.get('am_lead_id')) u.searchParams.set('am_lead_id', leadId);
+      return u.toString();
+    },
+    snapshot: function(){
+      var s = bookingSource(); s.lead_id = leadId; s.clicked_at = new Date().toISOString();
+      J.set(K_BOOK, s); return s;
+    }
+  };
+  window.AM_LEAD_ID = leadId;
+  window.AMdecorate = window.AMAttribution.decorate;
+
+  function decorateAll(){
+    var links = document.querySelectorAll('a[href]'), i, h;
+    for (i=0;i<links.length;i++) {
+      h = links[i].getAttribute('href') || '';
+      if (isBookingHref(h)) links[i].href = window.AMAttribution.decorate(links[i].href);
+    }
+  }
+  document.addEventListener('click', function(e){
+    var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if (a && isBookingHref(a.getAttribute('href'))) window.AMAttribution.snapshot();
+  }, true);
+
+  /* ---------- 2. consent state ------------------------------------------ */
+  var K_CONSENT = 'am_consent';
+  function gpc(){
+    try { return navigator.globalPrivacyControl === true; } catch(e){ return false; }
+  }
+
+  /* Region set by middleware.js, e.g. "US", "CA-ON", "CA-QC", "GB", "ZZ". */
+  function region(){
+    try {
+      var m = document.cookie.match(/(?:^|;\s*)am_geo=([^;]*)/);
+      return m ? decodeURIComponent(m[1]).toUpperCase() : '';
+    } catch(e){ return ''; }
+  }
+  /* Automatic loading is limited to the markets we advertise in and where
+     prior consent is not required. Unknown region means no. */
+  function autoAllowed(){
+    var g = region();
+    if (!g || g === 'ZZ') return false;
+    if (g === 'US') return true;
+    if (g.slice(0,2) === 'CA') return g !== 'CA-QC';
+    return false;
+  }
+  function stored(){
+    var c = J.get(K_CONSENT);
+    return (c && c.version === window.AM_CONSENT_VERSION) ? c : null;
+  }
+  function record(status, via){
+    J.set(K_CONSENT, { status: status, version: window.AM_CONSENT_VERSION,
+                       via: via || 'privacy-choices', at: new Date().toISOString() });
+  }
+  function externalCMP(){
+    if (window.__tcfapi) return 'tcf';
+    if (window.Cookiebot) return 'cookiebot';
+    if (window.OneTrust || window.Optanon) return 'onetrust';
+    if (window.UC_UI) return 'usercentrics';
+    if (window.Osano) return 'osano';
+    return null;
+  }
+  function cmpDecision(kind, cb){
+    try {
+      if (kind === 'tcf') {
+        window.__tcfapi('addEventListener', 2, function(d, ok){
+          if (!ok || !d) return;
+          if (d.eventStatus === 'tcloaded' || d.eventStatus === 'useractioncomplete') {
+            var p = (d.purpose && d.purpose.consents) || {};
+            cb(!!(p[1] && p[3] && p[4]));
+          }
+        });
+      } else if (kind === 'cookiebot') {
+        var r = function(){ cb(!!(window.Cookiebot.consent && window.Cookiebot.consent.marketing)); };
+        window.addEventListener('CookiebotOnAccept', r);
+        window.addEventListener('CookiebotOnDecline', r);
+        if (window.Cookiebot.consent) r();
+      } else if (kind === 'onetrust') {
+        var g = function(){ return window.OptanonActiveGroups || window.OnetrustActiveGroups || ''; };
+        var r2 = function(){ cb(g().indexOf('C0004') > -1); };
+        window.addEventListener('OneTrustGroupsUpdated', r2);
+        if (g()) r2();
+      } else if (kind === 'usercentrics') {
+        window.addEventListener('UC_UI_CMP_EVENT', function(){
+          try { cb(!!window.UC_UI.getServicesBaseInfo().filter(function(s){
+            return /facebook|meta/i.test(s.name) && s.consent && s.consent.status; }).length); } catch(e){}
+        });
+      } else if (kind === 'osano') {
+        window.Osano.cm.addEventListener('osano-cm-consent-saved', function(c){ cb(c && c.MARKETING === 'ACCEPT'); });
+        if (window.Osano.cm.getConsent) cb(window.Osano.cm.getConsent().MARKETING === 'ACCEPT');
+      }
+    } catch(e){}
+  }
+
+  /* ---------- 3. pixel --------------------------------------------------- */
+  var loaded = false;
+  function loadPixel(){
+    if (loaded || window.fbq) { loaded = true; return; }
+    loaded = true;
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', window.AM_PIXEL_ID);
+    fbq('track', 'PageView');
+  }
+
+  window.AMConsent = {
+    /* 'granted' | 'denied' | 'gpc' | 'unset' */
+    state: function(){
+      if (gpc()) return 'gpc';
+      var c = stored();
+      if (c) return c.status;
+      return autoAllowed() ? 'granted' : 'unset';
+    },
+    gpc: gpc,
+    auto: autoAllowed,
+    region: region,
+    grant: function(){
+      if (gpc()) return false;               /* a browser signal outranks a click */
+      record('granted');
+      persistTouch();
+      loadPixel();
+      if (window.fbq) fbq('consent','grant');
+      return true;
+    },
+    withdraw: function(){
+      record('denied');
+      forgetTouch();                         /* stop keeping what we may not keep */
+      if (window.fbq) fbq('consent','revoke');
+      return true;
+    },
+    reset: function(){ LS.del(K_CONSENT); }
+  };
+
+  /* ---------- 4. boot ---------------------------------------------------- */
+  function boot(){
+    decorateAll();
+    setTimeout(decorateAll, 800);
+
+    if (gpc()) return;                       /* opted out at browser level */
+
+    var cmp = externalCMP();
+    if (cmp) {
+      cmpDecision(cmp, function(ok){
+        if (ok === true) { record('granted','cmp'); persistTouch(); loadPixel(); }
+        else if (ok === false) { record('denied','cmp'); forgetTouch(); }
+      });
+      return;
+    }
+    var c = stored();
+    if (c) {
+      if (c.status === 'granted') { persistTouch(); loadPixel(); }
+      return;                                /* an explicit choice always wins */
+    }
+    if (autoAllowed()) {                     /* approved automatic configuration */
+      persistTouch();
+      loadPixel();
+    }
+    /* otherwise nothing loads, and nothing is shown */
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+})();
+</script>
+<!-- End AM Consulting tracking -->
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="/"><span class="plate"><img src="data:image/webp;base64,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" alt=""></span><b>AM Consulting</b></a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated September 26, 2026</p>
+    <p class="lede">This policy explains what Ayman &amp; Mzyan Consulting Inc., operating as AM Consulting, collects when you use amconsultings.ca, why we collect it, who we share it with and what you can ask us to do about it.</p>
+
+    <div class="toc">
+      <p>On this page</p>
+      <ol>
+        <li><a href="#who">Who we are</a></li>
+        <li><a href="#collect">What we collect</a></li>
+        <li><a href="#why">Why we use it</a></li>
+        <li><a href="#cookies">Cookies and advertising</a></li>
+        <li><a href="#share">Who we share it with</a></li>
+        <li><a href="#retention">How long we keep it</a></li>
+        <li><a href="#rights">Your rights</a></li>
+        <li><a href="#security">Security and storage location</a></li>
+        <li><a href="#children">Children</a></li>
+        <li><a href="#changes">Changes</a></li>
+        <li><a href="#contact">Contact us</a></li>
+      </ol>
+    </div>
+
+    <h2 id="who">1. Who we are</h2>
+    <p>Ayman &amp; Mzyan Consulting Inc. is a corporation based in Ontario, Canada. We operate under the brand name AM Consulting and run the website at amconsultings.ca. We are the organisation responsible for the personal information described here.</p>
+    <p>General enquiries: <a href="mailto:am.consulting.inc1@gmail.com">am.consulting.inc1@gmail.com</a><br>
+       Privacy enquiries and requests: <a href="mailto:aymanshoeib18@gmail.com">aymanshoeib18@gmail.com</a></p>
+    <p>We advertise to people in Canada, excluding Quebec, and in the United States. The website itself is open to anyone, so if you are reading this from Quebec or elsewhere, the rights described below still apply to you.</p>
+
+    <h2 id="collect">2. What we collect</h2>
+
+    <h3>Information you give us</h3>
+    <ul>
+      <li><strong>When you book a call.</strong> Your name, email address and anything else you type into the booking form, including your phone number and details about your business if the form asks for them. Bookings are handled through our GoHighLevel booking calendar and qualification form.</li>
+      <li><strong>During a consultation.</strong> Notes we take about your business, your offer and your numbers. Calls are held on Zoom.</li>
+      <li><strong>When you email us.</strong> Whatever you choose to send, and your email address.</li>
+    </ul>
+
+    <h3>Information collected automatically</h3>
+    <ul>
+      <li>Standard server and log information from our host, including IP address, browser type, device type, the pages you requested and the time of the request.</li>
+      <li>The page you arrived from, and any campaign parameters in the link you clicked, such as utm_source, utm_medium, utm_campaign, utm_content, utm_term and advertising click identifiers including fbclid.</li>
+      <li>A random internal identifier we generate in your browser, in the form am_ followed by a random string. It is not linked to your name and is used only to connect a visit to a later booking.</li>
+    </ul>
+
+    <h3>What we do not collect</h3>
+    <p>We do not ask for and do not want health information, medical records, patient information or other sensitive categories of data. Several of our clients work in health sectors. We work on their marketing systems, not on their patient data. Please do not send us patient or client health information.</p>
+
+    <h2 id="why">3. Why we use it</h2>
+    <table>
+      <tr><th>Purpose</th><th>Information used</th></tr>
+      <tr><td>Scheduling and holding consultations</td><td>Name, email, phone, booking answers, call notes</td></tr>
+      <tr><td>Replying to enquiries</td><td>Email address and message content</td></tr>
+      <tr><td>Operating and securing the website</td><td>Server logs, IP address</td></tr>
+      <tr><td>Understanding which campaigns bring enquiries</td><td>Campaign parameters, referring page, internal identifier</td></tr>
+      <tr><td>Measuring advertising, only with your consent</td><td>Meta Pixel cookies and identifiers</td></tr>
+      <tr><td>Meeting legal, tax and record keeping obligations</td><td>Contracts, invoices, correspondence</td></tr>
+    </table>
+
+    <h2 id="cookies">4. Cookies and advertising</h2>
+    <p>What happens when you arrive depends on where you are.</p>
+    <ul>
+      <li><strong>United States, and Canada outside Quebec.</strong> We load the Meta Pixel when you arrive and record that a browser viewed the page. You do not have to click anything, and we do not show a cookie popup. You can switch it off at any time on our <a href="/privacy-choices">Privacy choices</a> page.</li>
+      <li><strong>Quebec, and everywhere else.</strong> Nothing loads. No advertising technology runs and no advertising cookie is set unless you switch measurement on yourself on our <a href="/privacy-choices">Privacy choices</a> page.</li>
+      <li><strong>If we cannot tell where you are,</strong> we treat you as the second group and load nothing.</li>
+    </ul>
+    <p>To decide which applies, our host tells the page your country, and your province if you are in Canada. We keep that in a cookie for one day. It holds a code such as US or CA-ON. We do not store your IP address for this purpose.</p>
+    <p>When it loads, the Meta Pixel, dataset ID 2124222655634274, tells Meta that a browser visited a page on our site so we can measure whether our advertising works. Meta acts as an independent controller of that information under its own terms. You can read Meta's privacy policy at <a href="https://www.facebook.com/privacy/policy/" rel="noopener" target="_blank">facebook.com/privacy/policy</a>.</p>
+    <p>We have deliberately not switched on Meta's Advanced Matching feature, which would send hashed contact details such as your email address to Meta. We do not send names, email addresses, phone numbers, call notes or anything you tell us about your business to Meta.</p>
+    <p>We honour the Global Privacy Control browser signal. If your browser sends that signal, advertising measurement stays off wherever you are, even if it would otherwise load automatically and even if a preference was previously saved on this device. An opt-out you have saved also overrides automatic loading.</p>
+    <p>Where advertising measurement is running, we store your campaign parameters and the internal identifier described above in your browser's local storage. Where it is not running, those details stay in memory for the page view and are never written to your device. Switching measurement off deletes anything already stored. That information stays on your device unless you book a call, in which case the campaign parameters and the internal identifier travel with your booking so we can tell which campaign it came from. We never put your name, email address or phone number into a tracking link.</p>
+    <p>We do not sell personal information for money. Allowing advertising cookies may count as "sharing" for cross-context behavioural advertising, or as "targeted advertising", under some United States state privacy laws. Turning the setting off on our <a href="/privacy-choices">Privacy choices</a> page, or sending a Global Privacy Control signal, stops it.</p>
+
+    <h2 id="share">5. Who we share it with</h2>
+    <p>We do not sell your information. We use a small number of service providers to run the business. Each receives only what it needs.</p>
+    <table>
+      <tr><th>Provider</th><th>What it does</th><th>What it receives</th></tr>
+      <tr><td>Vercel</td><td>Website hosting</td><td>Server logs, IP address</td></tr>
+      <tr><td>Zoom</td><td>Holding the consultation</td><td>Name, email, and the call itself</td></tr>
+      <tr><td>Google (Gmail)</td><td>Our business email</td><td>Anything you email us</td></tr>
+      <tr><td>Meta</td><td>Advertising measurement, only if you opt in</td><td>Pixel cookies and identifiers</td></tr>
+      <tr><td>GoHighLevel</td><td>Our booking calendar, qualification form and CRM. It also provides the server-side connection to Meta described below</td><td>Name, email, phone, your booking answers, campaign parameters</td></tr>
+    </table>
+    <p>GoHighLevel's server-side connection to Meta is not switched on at the time of writing. When we switch it on, it will respect the same choice you make on our <a href="/privacy-choices">Privacy choices</a> page, and we will update this page.</p>
+    <p>We may also disclose information if we are required to by law, or to establish or defend a legal claim.</p>
+
+    <h2 id="retention">6. How long we keep it</h2>
+    <ul>
+      <li><strong>Enquiries and leads who do not become clients:</strong> deleted twelve months after our last interaction with you. This deletion is part of our routine process, not something you have to ask for.</li>
+      <li><strong>Clients:</strong> for the length of the engagement, then as long as we need for tax, accounting and legal record keeping. In Canada that is generally six years.</li>
+      <li><strong>Website server logs:</strong> for the period our host retains them.</li>
+      <li><strong>Advertising cookies:</strong> according to the lifetime Meta sets, or until you clear them or withdraw consent.</li>
+    </ul>
+
+    <h2 id="rights">7. Your rights</h2>
+    <p><strong>If you are in Canada.</strong> Under the Personal Information Protection and Electronic Documents Act, and under Quebec's Law 25 if you are in Quebec, you may ask us for access to the personal information we hold about you, ask us to correct it if it is wrong, and withdraw a consent you previously gave. You may also complain to the Office of the Privacy Commissioner of Canada, or to your provincial regulator.</p>
+    <p><strong>If you are in the United States.</strong> Depending on your state, you may have the right to know what we collect, to get a copy, to correct it, to have it deleted, and to opt out of targeted advertising or of the sharing of your information for cross-context behavioural advertising. You will not be treated differently for exercising these rights. To opt out of advertising measurement, use our <a href="/privacy-choices">Privacy choices</a> page or send a Global Privacy Control signal from your browser.</p>
+    <p><strong>How to make a request.</strong> Email <a href="mailto:aymanshoeib18@gmail.com">aymanshoeib18@gmail.com</a> and tell us what you want. We will confirm we received it and respond within thirty days. We may need to ask a question or two to confirm who you are, and we will not use those answers for anything else. You can ask an authorised agent to make a request for you.</p>
+
+    <h2 id="security">8. Security and storage location</h2>
+    <p>We use reputable providers, keep access limited to the two of us, and use accounts protected by strong passwords and two-factor authentication where the provider supports it. No method of transmission or storage is completely secure, and we cannot promise absolute security.</p>
+    <p>Our service providers are largely based in the United States, so your information may be stored or processed there and may be accessible to authorities under the laws of that country.</p>
+
+    <h2 id="children">9. Children</h2>
+    <p>This website and our services are for business owners. They are not directed at anyone under eighteen and we do not knowingly collect information from children. If you believe a child has given us information, email us and we will delete it.</p>
+
+    <h2 id="changes">10. Changes</h2>
+    <p>If we change this policy we will update the date at the top. If the change is significant, for example a new provider receiving your information, we will say so clearly on this page.</p>
+
+    <h2 id="contact">11. Contact us</h2>
+    <p>Ayman &amp; Mzyan Consulting Inc.<br>Ontario, Canada<br>
+       Privacy: <a href="mailto:aymanshoeib18@gmail.com">aymanshoeib18@gmail.com</a><br>
+       General: <a href="mailto:am.consulting.inc1@gmail.com">am.consulting.inc1@gmail.com</a></p>
+    <p>If you are not satisfied with how we handle your request, you may contact the Office of the Privacy Commissioner of Canada at <a href="https://www.priv.gc.ca/" rel="noopener" target="_blank">priv.gc.ca</a>.</p>
+
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <nav aria-label="Legal">
+      <a href="/">Home</a>
+      <a href="/privacy-policy">Privacy</a>
+      <a href="/terms">Terms</a>
+      <a href="/privacy-choices">Privacy choices</a>
+    </nav>
+    <p>Ayman &amp; Mzyan Consulting Inc., operating as AM Consulting. Ontario, Canada.</p>
+    <p>General enquiries: <a href="mailto:am.consulting.inc1@gmail.com">am.consulting.inc1@gmail.com</a><br>
+       Privacy enquiries: <a href="mailto:aymanshoeib18@gmail.com">aymanshoeib18@gmail.com</a></p>
+    <p>&copy; 2026 Ayman &amp; Mzyan Consulting Inc. All rights reserved.</p>
+  </div>
+</footer>
+
+</body>
+</html>
