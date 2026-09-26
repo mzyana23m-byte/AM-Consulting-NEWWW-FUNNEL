@@ -273,9 +273,18 @@ footer{border-top:1px solid var(--line);padding:2.6rem 0 3.4rem;background:#0607
      AM CONSULTING — BROWSER TRACKING
      Meta dataset 2124222655634274. One initialisation per page.
 
-     No banner, no popup, no floating notice. Advertising cookies stay OFF
-     until a visitor opts in on /privacy-choices. Global Privacy Control is
-     honoured and overrides a stored opt-in.
+     No banner and no popup anywhere.
+
+     Where our approved configuration allows automatic measurement, the pixel
+     loads on arrival and fires one PageView. That is the United States, and
+     Canada outside Quebec. Everyone else, including Quebec, the EEA, the UK
+     and any visitor whose region we cannot determine, gets nothing until they
+     switch it on at /privacy-choices.
+
+     A stored opt-out and Global Privacy Control both override automatic
+     loading. The region comes from middleware.js, which copies Vercel's edge
+     country into a short-lived cookie. Without that file no region is known,
+     so nothing loads automatically.
 
      There is no <noscript> image beacon: a beacon fires regardless of
      choice, which would defeat the opt-in.
@@ -401,6 +410,23 @@ window.AM_CONSENT_VERSION = 1;
   function gpc(){
     try { return navigator.globalPrivacyControl === true; } catch(e){ return false; }
   }
+
+  /* Region set by middleware.js, e.g. "US", "CA-ON", "CA-QC", "GB", "ZZ". */
+  function region(){
+    try {
+      var m = document.cookie.match(/(?:^|;\s*)am_geo=([^;]*)/);
+      return m ? decodeURIComponent(m[1]).toUpperCase() : '';
+    } catch(e){ return ''; }
+  }
+  /* Automatic loading is limited to the markets we advertise in and where
+     prior consent is not required. Unknown region means no. */
+  function autoAllowed(){
+    var g = region();
+    if (!g || g === 'ZZ') return false;
+    if (g === 'US') return true;
+    if (g.slice(0,2) === 'CA') return g !== 'CA-QC';
+    return false;
+  }
   function stored(){
     var c = J.get(K_CONSENT);
     return (c && c.version === window.AM_CONSENT_VERSION) ? c : null;
@@ -471,9 +497,12 @@ window.AM_CONSENT_VERSION = 1;
     state: function(){
       if (gpc()) return 'gpc';
       var c = stored();
-      return c ? c.status : 'unset';
+      if (c) return c.status;
+      return autoAllowed() ? 'granted' : 'unset';
     },
     gpc: gpc,
+    auto: autoAllowed,
+    region: region,
     grant: function(){
       if (gpc()) return false;               /* a browser signal outranks a click */
       record('granted');
@@ -507,8 +536,15 @@ window.AM_CONSENT_VERSION = 1;
       return;
     }
     var c = stored();
-    if (c && c.status === 'granted') { persistTouch(); loadPixel(); }
-    /* no stored choice: nothing loads, and nothing is shown */
+    if (c) {
+      if (c.status === 'granted') { persistTouch(); loadPixel(); }
+      return;                                /* an explicit choice always wins */
+    }
+    if (autoAllowed()) {                     /* approved automatic configuration */
+      persistTouch();
+      loadPixel();
+    }
+    /* otherwise nothing loads, and nothing is shown */
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
@@ -516,6 +552,7 @@ window.AM_CONSENT_VERSION = 1;
 })();
 </script>
 <!-- End AM Consulting tracking -->
+
 
 
 </head>
