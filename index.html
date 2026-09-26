@@ -153,6 +153,14 @@ p{margin:0 0 1em}
   box-shadow:0 30px 90px -40px rgba(0,0,0,.9)}
 .vsl iframe,.vsl video{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
 .vsl-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.85rem;text-align:center;padding:1.5rem}
+.book-embed{margin:2.4rem auto 0;max-width:640px;min-height:520px;background:var(--panel);
+  border:1px solid var(--line-2);border-radius:16px;overflow:hidden;
+  box-shadow:0 30px 90px -40px rgba(0,0,0,.9)}
+.book-embed iframe{width:100%;height:100%;min-height:520px;display:block;border:0}
+@media (max-width:600px){
+  .book-embed{min-height:640px;margin-left:16px;margin-right:16px}
+  .book-embed iframe{min-height:640px}
+}
 .vsl-play{width:66px;height:66px;border:1px solid var(--line-2);border-radius:50%;display:grid;place-items:center}
 .vsl-play::after{content:"";display:block;margin-left:5px;border-left:15px solid var(--blue-hi);border-top:10px solid transparent;border-bottom:10px solid transparent}
 .vsl-ph-t{color:var(--amber);font-size:.88rem;font-variation-settings:"wdth" 94,"wght" 600;letter-spacing:.02em}
@@ -680,9 +688,12 @@ window.AM_CONSENT_VERSION = 1;
   <div class="wrap rv">
     <h2 class="h2">Ready to install it?</h2>
     <p class="lede">Thirty minutes. Bring your numbers: spend, cost per call, show rate, close rate. If you don't have them, that's the first finding and we'll say so on the call.</p>
-    <a class="btn btn-primary btn-glow" id="bookBtn" href="#book" data-cta="booking">Book a consulting call</a>
+    <div class="book-embed">
+      <iframe src="https://api.leadconnectorhq.com/widget/survey/pPJH7gs8NcVFSKSJ4u6y" style="width:100%;height:100%;border:none;display:block" scrolling="no" id="pPJH7gs8NcVFSKSJ4u6y" title="AM Consulting strategy call intake" data-cookie-consent="true" data-cookie-consent-provider="auto"></iframe>
+    </div>
   </div>
 </section>
+<script src="https://link.msgsndr.com/js/form_embed.js"></script>
 
 </main>
 
