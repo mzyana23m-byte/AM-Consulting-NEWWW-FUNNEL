@@ -266,6 +266,258 @@ footer{border-top:1px solid var(--line);padding:2.6rem 0 3.4rem;background:#0607
   .rv{opacity:1;transform:none}
 }
 </style>
+
+
+
+<!-- =====================================================================
+     AM CONSULTING — BROWSER TRACKING
+     Meta dataset 2124222655634274. One initialisation per page.
+
+     No banner, no popup, no floating notice. Advertising cookies stay OFF
+     until a visitor opts in on /privacy-choices. Global Privacy Control is
+     honoured and overrides a stored opt-in.
+
+     There is no <noscript> image beacon: a beacon fires regardless of
+     choice, which would defeat the opt-in.
+     Advanced Matching is deliberately not enabled.
+     ===================================================================== -->
+<script>
+window.AM_PIXEL_ID        = '2124222655634274';
+window.AM_CONSENT_VERSION = 1;
+</script>
+<script>
+(function(){
+  "use strict";
+  if (window.__amTrack) return;          /* duplicate-install guard */
+  window.__amTrack = true;
+
+  var mem = {};
+  var LS = {
+    get: function(k){ try { var v = localStorage.getItem(k); return v === null ? (k in mem ? mem[k] : null) : v; } catch(e){ return k in mem ? mem[k] : null; } },
+    set: function(k,v){ mem[k] = v; try { localStorage.setItem(k,v); } catch(e){} },
+    del: function(k){ delete mem[k]; try { localStorage.removeItem(k); } catch(e){} }
+  };
+  var J = {
+    get: function(k){ try { return JSON.parse(LS.get(k) || 'null'); } catch(e){ return null; } },
+    set: function(k,v){ try { LS.set(k, JSON.stringify(v)); } catch(e){} }
+  };
+
+  /* ---------- 1. attribution, stored locally only ---------------------- */
+  var K_FIRST='am_attr_first_ever', K_PAID='am_attr_first_paid',
+      K_LAST='am_attr_last', K_BOOK='am_attr_booking', K_LEAD='am_lead_id';
+
+  var UTM   = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+  var CLICK = ['fbclid','gclid','msclkid','ttclid','li_fat_id'];
+  var PAID_MEDIUMS = ['cpc','ppc','paid','paidsocial','paid_social','paid-social','display','cpm','retargeting','remarketing'];
+  /* exact hostnames only, no substring matching */
+  var BOOKING_HOSTS = ['api.leadconnectorhq.com','widgets.leadconnectorhq.com',
+                       'link.msgsndr.com','api.msgsndr.com'];
+  function isBookingHost(h){ return BOOKING_HOSTS.indexOf(String(h).toLowerCase()) > -1; }
+  function isBookingHref(href){
+    if (!href) return false;
+    var u; try { u = new URL(href, location.href); } catch(e){ return false; }
+    return isBookingHost(u.hostname);
+  }
+
+  var q;
+  try { q = new URLSearchParams(location.search); } catch(e){ q = { get: function(){ return null; } }; }
+
+  function readTouch(){
+    var t = {}, i, hasUtm = false, hasClick = false;
+    for (i=0;i<UTM.length;i++)   if (q.get(UTM[i]))   { t[UTM[i]]   = String(q.get(UTM[i])).slice(0,200); hasUtm = true; }
+    for (i=0;i<CLICK.length;i++) if (q.get(CLICK[i])) { t[CLICK[i]] = String(q.get(CLICK[i])).slice(0,400); hasClick = true; }
+    if (hasUtm || hasClick) {
+      t.channel = (hasClick || PAID_MEDIUMS.indexOf(String(t.utm_medium||'').toLowerCase()) > -1) ? 'paid' : 'campaign';
+    } else {
+      var host = '';
+      try { host = document.referrer ? new URL(document.referrer).hostname : ''; } catch(e){}
+      if (host && host !== location.hostname) { t.referrer_host = host; t.channel = 'referral'; }
+      else { t.channel = 'direct'; }
+    }
+    t.landed_at = new Date().toISOString();
+    t.landing_path = location.pathname;
+    return t;
+  }
+
+  var touch = readTouch();
+
+  /* Optional attribution is not written to the device until advertising
+     measurement is allowed. Until then it lives in memory for this page view
+     only, so a visitor who never opts in leaves nothing behind. */
+  var pending = null;
+  function persistTouch(){
+    if (!J.get(K_FIRST)) J.set(K_FIRST, touch);
+    if (touch.channel === 'paid' && !J.get(K_PAID)) J.set(K_PAID, touch);
+    if (touch.channel !== 'direct') J.set(K_LAST, touch);
+    LS.set(K_LEAD, leadId);
+    pending = null;
+  }
+  function forgetTouch(){
+    LS.del(K_FIRST); LS.del(K_PAID); LS.del(K_LAST); LS.del(K_BOOK); LS.del(K_LEAD);
+  }
+
+  var leadId = LS.get(K_LEAD);
+  if (!leadId) leadId = 'am_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,10);
+  function bookingSource(){ return J.get(K_LAST) || J.get(K_PAID) || J.get(K_FIRST) || touch || {}; }
+
+  window.AMAttribution = {
+    leadId:    function(){ return leadId; },
+    firstEver: function(){ return J.get(K_FIRST) || touch; },
+    firstPaid: function(){ return J.get(K_PAID);  },
+    last:      function(){ return J.get(K_LAST) || (touch.channel !== 'direct' ? touch : null); },
+    booking:   function(){ return J.get(K_BOOK);  },
+    clear:     function(){ LS.del(K_FIRST); LS.del(K_PAID); LS.del(K_LAST); LS.del(K_BOOK); LS.del(K_LEAD); },
+    decorate:  function(url){
+      if (!url) return url;
+      var u; try { u = new URL(url, location.href); } catch(e){ return url; }
+      if (!isBookingHost(u.hostname)) return url;
+      var src = bookingSource(), i;
+      for (i=0;i<UTM.length;i++) if (src[UTM[i]] && !u.searchParams.get(UTM[i])) u.searchParams.set(UTM[i], src[UTM[i]]);
+      if (!u.searchParams.get('am_lead_id')) u.searchParams.set('am_lead_id', leadId);
+      return u.toString();
+    },
+    snapshot: function(){
+      var s = bookingSource(); s.lead_id = leadId; s.clicked_at = new Date().toISOString();
+      J.set(K_BOOK, s); return s;
+    }
+  };
+  window.AM_LEAD_ID = leadId;
+  window.AMdecorate = window.AMAttribution.decorate;
+
+  function decorateAll(){
+    var links = document.querySelectorAll('a[href]'), i, h;
+    for (i=0;i<links.length;i++) {
+      h = links[i].getAttribute('href') || '';
+      if (isBookingHref(h)) links[i].href = window.AMAttribution.decorate(links[i].href);
+    }
+  }
+  document.addEventListener('click', function(e){
+    var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if (a && isBookingHref(a.getAttribute('href'))) window.AMAttribution.snapshot();
+  }, true);
+
+  /* ---------- 2. consent state ------------------------------------------ */
+  var K_CONSENT = 'am_consent';
+  function gpc(){
+    try { return navigator.globalPrivacyControl === true; } catch(e){ return false; }
+  }
+  function stored(){
+    var c = J.get(K_CONSENT);
+    return (c && c.version === window.AM_CONSENT_VERSION) ? c : null;
+  }
+  function record(status, via){
+    J.set(K_CONSENT, { status: status, version: window.AM_CONSENT_VERSION,
+                       via: via || 'privacy-choices', at: new Date().toISOString() });
+  }
+  function externalCMP(){
+    if (window.__tcfapi) return 'tcf';
+    if (window.Cookiebot) return 'cookiebot';
+    if (window.OneTrust || window.Optanon) return 'onetrust';
+    if (window.UC_UI) return 'usercentrics';
+    if (window.Osano) return 'osano';
+    return null;
+  }
+  function cmpDecision(kind, cb){
+    try {
+      if (kind === 'tcf') {
+        window.__tcfapi('addEventListener', 2, function(d, ok){
+          if (!ok || !d) return;
+          if (d.eventStatus === 'tcloaded' || d.eventStatus === 'useractioncomplete') {
+            var p = (d.purpose && d.purpose.consents) || {};
+            cb(!!(p[1] && p[3] && p[4]));
+          }
+        });
+      } else if (kind === 'cookiebot') {
+        var r = function(){ cb(!!(window.Cookiebot.consent && window.Cookiebot.consent.marketing)); };
+        window.addEventListener('CookiebotOnAccept', r);
+        window.addEventListener('CookiebotOnDecline', r);
+        if (window.Cookiebot.consent) r();
+      } else if (kind === 'onetrust') {
+        var g = function(){ return window.OptanonActiveGroups || window.OnetrustActiveGroups || ''; };
+        var r2 = function(){ cb(g().indexOf('C0004') > -1); };
+        window.addEventListener('OneTrustGroupsUpdated', r2);
+        if (g()) r2();
+      } else if (kind === 'usercentrics') {
+        window.addEventListener('UC_UI_CMP_EVENT', function(){
+          try { cb(!!window.UC_UI.getServicesBaseInfo().filter(function(s){
+            return /facebook|meta/i.test(s.name) && s.consent && s.consent.status; }).length); } catch(e){}
+        });
+      } else if (kind === 'osano') {
+        window.Osano.cm.addEventListener('osano-cm-consent-saved', function(c){ cb(c && c.MARKETING === 'ACCEPT'); });
+        if (window.Osano.cm.getConsent) cb(window.Osano.cm.getConsent().MARKETING === 'ACCEPT');
+      }
+    } catch(e){}
+  }
+
+  /* ---------- 3. pixel --------------------------------------------------- */
+  var loaded = false;
+  function loadPixel(){
+    if (loaded || window.fbq) { loaded = true; return; }
+    loaded = true;
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', window.AM_PIXEL_ID);
+    fbq('track', 'PageView');
+  }
+
+  window.AMConsent = {
+    /* 'granted' | 'denied' | 'gpc' | 'unset' */
+    state: function(){
+      if (gpc()) return 'gpc';
+      var c = stored();
+      return c ? c.status : 'unset';
+    },
+    gpc: gpc,
+    grant: function(){
+      if (gpc()) return false;               /* a browser signal outranks a click */
+      record('granted');
+      persistTouch();
+      loadPixel();
+      if (window.fbq) fbq('consent','grant');
+      return true;
+    },
+    withdraw: function(){
+      record('denied');
+      forgetTouch();                         /* stop keeping what we may not keep */
+      if (window.fbq) fbq('consent','revoke');
+      return true;
+    },
+    reset: function(){ LS.del(K_CONSENT); }
+  };
+
+  /* ---------- 4. boot ---------------------------------------------------- */
+  function boot(){
+    decorateAll();
+    setTimeout(decorateAll, 800);
+
+    if (gpc()) return;                       /* opted out at browser level */
+
+    var cmp = externalCMP();
+    if (cmp) {
+      cmpDecision(cmp, function(ok){
+        if (ok === true) { record('granted','cmp'); persistTouch(); loadPixel(); }
+        else if (ok === false) { record('denied','cmp'); forgetTouch(); }
+      });
+      return;
+    }
+    var c = stored();
+    if (c && c.status === 'granted') { persistTouch(); loadPixel(); }
+    /* no stored choice: nothing loads, and nothing is shown */
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+})();
+</script>
+<!-- End AM Consulting tracking -->
+
+
 </head>
 <body>
 <div class="vign"></div>
@@ -445,8 +697,9 @@ footer{border-top:1px solid var(--line);padding:2.6rem 0 3.4rem;background:#0607
             <a href="#breakdown">Breakdown</a>
         <a href="#results">Results</a>
         <a href="#book">Book a call</a>
+        <a href="/privacy">Privacy</a> <a href="/terms">Terms</a> <a href="/privacy-choices">Privacy choices</a>
       </nav>
-      <p class="small" style="margin:0">&copy; 2026 AM Consulting. [ADD LEGAL ENTITY]</p>
+      <p class="small" style="margin:0">&copy; 2026 Ayman and Mzyan Consulting Inc., operating as AM Consulting.</p>
     </div>
   </div>
 </footer>
@@ -463,7 +716,7 @@ var clamp = function(v,a,b){ return v<a?a:(v>b?b:v); };
 var scrollVel = 0;
 
 /* ============ booking link ============================================
-   Paste the Calendly / GHL booking URL between the quotes below.
+   Paste the GoHighLevel booking URL between the quotes below.
    Every "Book a consulting call" button then points at it and the amber
    placeholder line removes itself. Nothing else needs changing.
    ==================================================================== */
@@ -531,7 +784,9 @@ Array.prototype.slice.call(document.querySelectorAll('[data-video]')).forEach(fu
   addWatchLink(box, DEEPER_VIDEOS[i]);
 });
 
-var BOOKING_URL = 'https://calendly.com/mzyana23m/30min';
+/* Paste the GoHighLevel calendar URL here. While it is empty the CTAs stay
+   as in-page anchors rather than pointing at a dead link. */
+var BOOKING_URL = '';
 (function(){
   if(!BOOKING_URL) return;
   Array.prototype.slice.call(document.querySelectorAll('[data-cta="booking"]')).forEach(function(a){
@@ -761,5 +1016,8 @@ onFrame();
 
 })();
 </script>
+
+
+
 </body>
 </html>
