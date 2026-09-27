@@ -574,7 +574,7 @@ window.AM_CONSENT_VERSION = 1;
 
     <p class="lede hero-sub">So your audience finally pays you what it's worth. Content, offer, funnel, copy, ads, webinars, sales and fulfillment, all built and run for you, while you stay the face.</p>
 
-    <div class="vsl" id="vsl">
+    <div class="vsl" id="vsl" hidden>
       <div class="vsl-ph" id="vslPh">
         <span class="vsl-play" aria-hidden="true"></span>
         <span class="vsl-ph-t">[ ADD VSL EMBED ]</span>
@@ -744,7 +744,7 @@ window.AM_CONSENT_VERSION = 1;
         <a href="#book">Book a call</a>
         <a href="/privacy-policy">Privacy</a> <a href="/terms">Terms</a> <a href="/privacy-choices">Privacy choices</a>
       </nav>
-      <p class="small" style="margin:0">&copy; 2026 Ayman and Mzyan Consulting Inc., operating as AM Consulting.</p>
+      <p class="small" style="margin:0;line-height:1.6">Ayman &amp; Mzyan Consulting Inc., operating as AM Consulting<br>46 Bradbury Road, Hamilton, ON L8J 0L1<br><a href="mailto:am.consulting.inc1@gmail.com">am.consulting.inc1@gmail.com</a> &middot; <a href="tel:+13135138401">+1 (313) 513-8401</a><br>&copy; 2026 Ayman &amp; Mzyan Consulting Inc.</p>
     </div>
   </div>
 </footer>
@@ -823,6 +823,12 @@ function addWatchLink(box, url){
   a.textContent = 'Watch on YouTube';
   cap.appendChild(a);
 }
+/* Hero VSL stays hidden until a URL exists, so no placeholder is ever
+   visible to a visitor. Adding VSL_URL automatically unhides it. */
+(function(){
+  var heroVsl = document.getElementById('vsl');
+  if(heroVsl && VSL_URL) heroVsl.hidden = false;
+})();
 mountVideo(document.getElementById('vsl'), VSL_URL, 'Watch the breakdown');
 Array.prototype.slice.call(document.querySelectorAll('[data-video]')).forEach(function(box,i){
   mountVideo(box, DEEPER_VIDEOS[i], 'Play');
