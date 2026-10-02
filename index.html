@@ -152,6 +152,7 @@ p{margin:0 0 1em}
   border:1px solid var(--line-2);background:linear-gradient(160deg,var(--panel),#07080C);overflow:hidden;
   box-shadow:0 30px 90px -40px rgba(0,0,0,.9)}
 .vsl iframe,.vsl video{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+.vsl-wistia wistia-player{position:absolute;inset:0;width:100%;height:100%;display:block}
 .vsl-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.85rem;text-align:center;padding:1.5rem}
 /* No forced height here on purpose. form_embed.js resizes the iframe to the
    actual form content once it loads, and the container just follows that
@@ -545,6 +546,11 @@ window.AM_CONSENT_VERSION = 1;
 <!-- Whop Pixel -->
 <script>!function(w,d,s,u,n,a,b){if(w[n])return;a=w[n]={q:[],t:+new Date,s:[],o:u,track:function(){a.q.push([+new Date].concat([].slice.call(arguments)))},setScope:function(){a.s=[].slice.call(arguments).filter(function(x){return typeof x==="string"});a.q.push([+new Date,"setScope"].concat(a.s))},scope:function(){var c=[].slice.call(arguments);return{track:function(){a.q.push([+new Date].concat([].slice.call(arguments)).concat([{__scope:c}]))}}}};b=d.createElement(s);b.async=1;b.src=u+"/s.js";d.getElementsByTagName(s)[0].parentNode.insertBefore(b,d.getElementsByTagName(s)[0])}(window,document,"script","https://t.whop.tw","whop");whop.setScope("biz_h4dGCvs7lSvOpH");whop.track("page");</script>
 <!-- End Whop Pixel -->
+
+<!-- Wistia hero VSL -->
+<script src="https://fast.wistia.com/player.js" async></script>
+<script src="https://fast.wistia.com/embed/pn8njd9yyh.js" async type="module"></script>
+<style>wistia-player[media-id='pn8njd9yyh']:not(:defined) { background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/pn8njd9yyh/swatch'); display: block; filter: blur(5px); padding-top:56.25%; }</style>
 </head>
 <body>
 <div class="vign"></div>
@@ -574,12 +580,8 @@ window.AM_CONSENT_VERSION = 1;
 
     <p class="lede hero-sub">AM Consulting installs the paid ads, funnels, follow-up and sales infrastructure that turns qualified prospects into booked calls, without relying entirely on referrals, organic content or launches.</p>
 
-    <div class="vsl" id="vsl" hidden>
-      <div class="vsl-ph" id="vslPh">
-        <span class="vsl-play" aria-hidden="true"></span>
-        <span class="vsl-ph-t">[ ADD VSL EMBED ]</span>
-        <span class="vsl-ph-s">Paste the YouTube, Vimeo or Wistia link into VSL_URL at the top of the page script.</span>
-      </div>
+    <div class="vsl vsl-wistia" id="vsl">
+      <wistia-player media-id="pn8njd9yyh" aspect="1.7777777777777777"></wistia-player>
     </div>
 
     <div class="hero-cta">
@@ -823,13 +825,14 @@ function addWatchLink(box, url){
   a.textContent = 'Watch on YouTube';
   cap.appendChild(a);
 }
-/* Hero VSL stays hidden until a URL exists, so no placeholder is ever
-   visible to a visitor. Adding VSL_URL automatically unhides it. */
+/* The hero VSL is a Wistia player embedded directly in the markup. Only let
+   VSL_URL take over if no player is already there. */
 (function(){
   var heroVsl = document.getElementById('vsl');
-  if(heroVsl && VSL_URL) heroVsl.hidden = false;
+  if(heroVsl && !heroVsl.querySelector('wistia-player')){
+    mountVideo(heroVsl, VSL_URL, 'Watch the breakdown');
+  }
 })();
-mountVideo(document.getElementById('vsl'), VSL_URL, 'Watch the breakdown');
 Array.prototype.slice.call(document.querySelectorAll('[data-video]')).forEach(function(box,i){
   mountVideo(box, DEEPER_VIDEOS[i], 'Play');
   addWatchLink(box, DEEPER_VIDEOS[i]);
