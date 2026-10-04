@@ -154,9 +154,8 @@ p{margin:0 0 1em}
 .vsl iframe,.vsl video{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
 .vsl-wistia wistia-player{position:absolute;inset:0;width:100%;height:100%;display:block}
 .vsl-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.85rem;text-align:center;padding:1.5rem}
-/* No forced height here on purpose. form_embed.js resizes the iframe to the
-   actual form content once it loads, and the container just follows that
-   height, it does not impose one of its own. */
+/* No forced height here on purpose. Tally's embed.js resizes the iframe to
+   the real form content (dynamicHeight=1) and the container follows it. */
 /* Fixed nav is roughly 82px tall, so anything we scroll to needs to clear it
    or the top of the element ends up hidden underneath the header. */
 .book-top-block{margin:clamp(30px,5vh,48px) auto 0;scroll-margin-top:104px}
@@ -166,7 +165,8 @@ p{margin:0 0 1em}
   border:1px solid var(--line-2);border-radius:16px;overflow:hidden;
   box-shadow:0 30px 90px -40px rgba(0,0,0,.9)}
 .book-top-block .book-embed{margin-top:1.5rem}
-.book-embed iframe{width:100%;height:340px;display:block;border:0}
+.book-embed iframe{width:100%;display:block;border:0}
+.book-embed{padding:clamp(14px,2.4vw,22px)}
 #book .book-embed{scroll-margin-top:104px}
 @media (max-width:600px){
   .book-embed{margin-left:16px;margin-right:16px}
@@ -598,7 +598,10 @@ window.AM_CONSENT_VERSION = 1;
     <div class="book-top-block" id="book-top">
       <h2 class="book-top-h">Apply to install the system</h2>
       <div class="book-embed">
-        <iframe src="https://api.leadconnectorhq.com/widget/survey/pPJH7gs8NcVFSKSJ4u6y" style="width:100%;height:340px;border:none;display:block" scrolling="no" id="pPJH7gs8NcVFSKSJ4u6y" title="AM Consulting strategy call intake" data-cookie-consent="true" data-cookie-consent-provider="auto"></iframe>
+        <iframe data-tally-src="https://tally.so/embed/VLkQoJ?alignLeft=1&amp;hideTitle=1&amp;transparentBackground=1&amp;dynamicHeight=1"
+  loading="lazy" width="100%" height="0" frameborder="0"
+  marginheight="0" marginwidth="0"
+  title="AM Consulting Application Form"></iframe>
       </div>
     </div>
   </div>
@@ -711,25 +714,26 @@ window.AM_CONSENT_VERSION = 1;
     <h2 class="h2">Ready to install it?</h2>
     <p class="lede">Book a free consultation call. We'll look at your numbers and tell you what's broken.</p>
     <div class="book-embed">
-      <iframe src="https://api.leadconnectorhq.com/widget/survey/pPJH7gs8NcVFSKSJ4u6y" style="width:100%;height:340px;border:none;display:block" scrolling="no" id="pPJH7gs8NcVFSKSJ4u6y-end" title="AM Consulting strategy call intake" data-cookie-consent="true" data-cookie-consent-provider="auto"></iframe>
+      <iframe data-tally-src="https://tally.so/embed/VLkQoJ?alignLeft=1&amp;hideTitle=1&amp;transparentBackground=1&amp;dynamicHeight=1"
+  loading="lazy" width="100%" height="0" frameborder="0"
+  marginheight="0" marginwidth="0"
+  title="AM Consulting Application Form"></iframe>
     </div>
   </div>
 </section>
-<script src="https://link.msgsndr.com/js/form_embed.js"></script>
 <script>
-/* Backup only: if GHL's own script misses a resize message for any reason,
-   this catches it too and applies the height directly. Harmless if
-   form_embed.js already handles it, since we just set the same value again. */
 (function(){
-  window.addEventListener('message', function(ev){
-    var d = ev.data;
-    if(!d || typeof d !== 'object') return;
-    var h = d.height || (d.data && d.data.height);
-    if(!h) return;
-    document.querySelectorAll('iframe[src*="pPJH7gs8NcVFSKSJ4u6y"]').forEach(function(f){ f.style.height = h + 'px'; });
+  var p=window.location.search;
+  if(!p)return;
+  document.querySelectorAll('iframe[data-tally-src]').forEach(function(f){
+    f.setAttribute('data-tally-src',f.getAttribute('data-tally-src')+'&'+p.substring(1));
   });
 })();
 </script>
+
+<script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w;s.onload=v;s.onerror=v;d.body.appendChild(s)}</script>
+
+
 
 </main>
 
