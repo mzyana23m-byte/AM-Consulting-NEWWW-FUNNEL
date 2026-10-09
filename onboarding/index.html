@@ -55,8 +55,12 @@ window.AM_PHASES = [
         note: 'This is where we build your actual offer with you. Make every answer as detailed as possible.' }
   ]},
   { title: 'Voice memo doc', items: [
+      /* numbered, not bulleted: 1 sits above the doc, 2 sits below it */
+      { label: 'Read through the document below and do the instructions', numbered: true },
       { label: 'Voice memo doc', url: 'https://docs.google.com/document/d/1nQBP9-LXotF_ic2ppquDeIXnPBoIYHkYS25evh8egu4/edit?tab=t.0', embed: 'doc',
-        note: "Answer these as a voice memo. It's how we get to know you and your content, not a research exercise." }
+        note: "Answer these as a voice memo. It's how we get to know you and your content, not a research exercise." },
+      { label: "Once you're done with the voice memo, send it to Omar", numbered: true,
+        note: 'In the group chat, iMessage or WhatsApp.' }
   ]}
 ];
 </script>
@@ -218,6 +222,15 @@ h1{margin:0;color:#fff;font-variation-settings:"wdth" 114,"wght" 760;letter-spac
 .phase-item a:hover{color:var(--blue-hi);text-decoration:underline}
 .phase-item .off{color:var(--amber);pointer-events:none;font-size:.86rem;letter-spacing:.02em}
 .phase-item small{display:block;color:var(--steel-dim);font-size:.84rem;margin-top:.15rem}
+
+.numbered-step{display:flex;align-items:flex-start;gap:1rem;margin:clamp(24px,4vh,36px) 0 1.3rem}
+.numbered-step:first-child{margin-top:0}
+.numbered-step:last-child{margin-bottom:0}
+.numbered-badge{flex:0 0 auto;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;
+  color:#fff;background:linear-gradient(160deg,var(--blue),#24477F);
+  border:1px solid rgba(93,147,228,.35);font-variation-settings:"wdth" 104,"wght" 720;font-size:.96rem}
+.numbered-step b{display:block;color:#fff;font-variation-settings:"wght" 620;margin-top:.35rem}
+.numbered-note{display:block;color:var(--steel);font-size:.9rem;margin-top:.2rem}
 
 .embed-cap{margin:1.6rem 0 0;color:#fff;font-size:1.02rem;font-variation-settings:"wght" 640}
 .phase-item + .embed-cap,.body > .embed-cap:first-child{margin-top:0}
@@ -385,10 +398,10 @@ footer{position:relative;z-index:3;border-top:1px solid var(--line);background:#
   <div class="prog" id="prog" aria-hidden="true"></div>
 
   <!-- ============ step 1 ============ -->
-  <section class="step live" id="s1">
+  <section class="step live" id="s1" style="text-align:center">
     <p class="eyebrow">Welcome aboard</p>
-    <h1>A message from your founders</h1>
-    <p class="lede">Omar and Ayman recorded this for you. Watch it before you move on, it explains how we work together and what happens over the next few days.</p>
+    <h1 style="margin-left:auto;margin-right:auto">A message from the founders</h1>
+    <p class="lede" style="margin-left:auto;margin-right:auto">Omar and Ayman recorded this for you. Watch it before you move on, it explains how we work together and what happens over the next few days.</p>
 
     <div class="vid" id="welcomeVid">
       <!-- WISTIA GOES HERE if you use Wistia. Otherwise paste a link into
@@ -400,8 +413,7 @@ footer{position:relative;z-index:3;border-top:1px solid var(--line);background:#
       </div>
     </div>
 
-    <div class="nav">
-      <span></span>
+    <div class="nav" style="justify-content:center">
       <button class="btn nav-next" type="button">Next</button>
     </div>
   </section>
@@ -423,7 +435,7 @@ footer{position:relative;z-index:3;border-top:1px solid var(--line);background:#
 
     <div class="nav">
       <button class="btn ghost nav-back" type="button">Back</button>
-      <button class="btn nav-next" type="button">Next</button>
+      <button class="btn nav-next" type="button">I'm done, continue</button>
     </div>
   </section>
 
@@ -434,7 +446,7 @@ footer{position:relative;z-index:3;border-top:1px solid var(--line);background:#
   <section class="step" id="sdiscord">
     <p class="eyebrow">Stay connected</p>
     <h1>Join the Discord</h1>
-    <p class="lede">Where we talk day to day. Fastest way to reach us while you work through everything above. <a id="docLink" href="#" target="_blank" rel="noopener" class="doclink off">View the original doc</a></p>
+    <p class="lede"><strong>Join the Discord, then come back here to complete the onboarding.</strong> It's where we talk day to day, the fastest way to reach us. <a id="docLink" href="#" target="_blank" rel="noopener" class="doclink off">View the original doc</a></p>
 
     <a class="card" id="discordCard" href="#" target="_blank" rel="noopener">
       <span class="ic" aria-hidden="true">
@@ -458,11 +470,9 @@ footer{position:relative;z-index:3;border-top:1px solid var(--line);background:#
     <p class="lede">Once everything above is done, grab a time with us below.</p>
 
     <div class="scheduler" id="schedulerEmbed">
-      <div class="survey-ph">
-        <b>[ ADD SCHEDULER LINK ]</b>
-        <small>Paste a Calendly or GHL calendar link into schedulerUrl at the top of this file.</small>
-      </div>
+      <iframe src="https://api.leadconnectorhq.com/widget/booking/UU8YAo625KMXrKhCAfZO" allow="payment" style="width: 100%;border:none;overflow: hidden;" scrolling="no" id="UU8YAo625KMXrKhCAfZO_1791559675872"></iframe>
     </div>
+    <script src="https://link.msgsndr.com/js/form_embed.js" type="text/javascript"></script>
 
     <div class="nav">
       <button class="btn ghost nav-back" type="button">Back</button>
@@ -546,7 +556,7 @@ footer{position:relative;z-index:3;border-top:1px solid var(--line);background:#
   if(CFG.welcomeVideo && !box.querySelector('wistia-player')){
     var f = document.createElement('iframe');
     f.src = toEmbed(CFG.welcomeVideo);
-    f.title = 'A message from your founders';
+    f.title = 'A message from the founders';
     f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen';
     f.setAttribute('allowfullscreen','');
     box.innerHTML = '';
@@ -572,6 +582,25 @@ footer{position:relative;z-index:3;border-top:1px solid var(--line);background:#
     f.title = title || 'Form';
     host.innerHTML = '';
     host.appendChild(f);
+
+    /* Hard cap. Tally's "one question at a time" layout vertically centers
+       each question inside a full page height block by design, so it can
+       report a real height of 900px+ for a single short question. That is
+       correct information from Tally, we just don't want to honour it
+       visually. A ResizeObserver on the iframe itself catches a jump past
+       the cap no matter what set it, Tally's own script, our own backup
+       listener below, anything, and pulls it back down immediately. Because
+       this changes the iframe's own box, not a wrapper clipping it from
+       outside, Tally's content re-centers inside the smaller space instead
+       of getting cut off. */
+    if(window.ResizeObserver){
+      var MAX_TALLY_H = 520; /* matches the CSS min-height below, so the box
+                                 never visibly jumps between loading and loaded */
+      var ro = new ResizeObserver(function(){
+        if(f.getBoundingClientRect().height > MAX_TALLY_H) f.style.height = MAX_TALLY_H + 'px';
+      });
+      ro.observe(f);
+    }
 
     var W = 'https://tally.so/widgets/embed.js';
     var load = function(){
@@ -636,8 +665,25 @@ footer{position:relative;z-index:3;border-top:1px solid var(--line);background:#
   /* ---------- scheduler ---------- */
   (function(){
     var host = document.getElementById('schedulerEmbed');
-    if(!host || !CFG.schedulerUrl) return;
-    host.innerHTML = '';
+    if(!host) return;
+
+    /* A real booking embed is already in the markup, so this dynamic
+       fallback steps aside rather than overwriting it. */
+    if(host.querySelector('iframe')){
+      /* Same safeguard as the Tally forms: watch the real iframe and cap a
+         runaway height rather than trusting whatever the widget reports. */
+      if(window.ResizeObserver){
+        var bookIfr = host.querySelector('iframe');
+        var MAX_BOOK_H = 760;
+        var robs = new ResizeObserver(function(){
+          if(bookIfr.getBoundingClientRect().height > MAX_BOOK_H) bookIfr.style.height = MAX_BOOK_H + 'px';
+        });
+        robs.observe(bookIfr);
+      }
+      return;
+    }
+
+    if(!CFG.schedulerUrl) return;
 
     if(/calendly\.com/.test(CFG.schedulerUrl)){
       var div = document.createElement('div');
@@ -676,7 +722,11 @@ footer{position:relative;z-index:3;border-top:1px solid var(--line);background:#
 
       /* the single item's own note is the page's instruction line, shown
          right under the heading, no "Phase" language anywhere */
-      var firstNote = (ph.items && ph.items[0] && ph.items[0].note) || '';
+      /* the page's lede is the note on whichever item is the actual embed,
+         not necessarily items[0] any more, since a numbered instruction can
+         now sit before it */
+      var embedItem = (ph.items || []).filter(function(it){ return it.embed; })[0];
+      var firstNote = (embedItem && embedItem.note) || (ph.items && ph.items[0] && ph.items[0].note) || '';
       if(firstNote){
         var lede = document.createElement('p');
         lede.className = 'lede';
@@ -686,7 +736,34 @@ footer{position:relative;z-index:3;border-top:1px solid var(--line);background:#
 
       var body = document.createElement('div');
       body.style.marginTop = 'clamp(22px,3.6vh,32px)';
+      var numberCount = 0;
       (ph.items || []).forEach(function(it, itIdx){
+
+        /* a numbered instruction, e.g. "1. Read through..." above the doc
+           and "2. Once you're done..." below it. Real numbering, not a
+           bullet, and it can sit before or after an embed in the array. */
+        if(it.numbered){
+          numberCount++;
+          var nrow = document.createElement('div');
+          nrow.className = 'numbered-step';
+          var badge = document.createElement('span');
+          badge.className = 'numbered-badge';
+          badge.textContent = numberCount;
+          nrow.appendChild(badge);
+          var ncol = document.createElement('div');
+          var nlabel = document.createElement('b');
+          nlabel.textContent = it.label;
+          ncol.appendChild(nlabel);
+          if(it.note){
+            var nnote = document.createElement('span');
+            nnote.className = 'numbered-note';
+            nnote.textContent = it.note;
+            ncol.appendChild(nnote);
+          }
+          nrow.appendChild(ncol);
+          body.appendChild(nrow);
+          return;
+        }
 
         /* an embedded Tally form or Google Doc gets its own full block,
            not a one-line link row. the note already became the page's
@@ -759,10 +836,18 @@ footer{position:relative;z-index:3;border-top:1px solid var(--line);background:#
       });
       sec.appendChild(body);
 
+      /* A page that embeds a Tally form already has its own "Next" button
+         inside the form itself. Calling our button the same thing means
+         someone mid-form can click ours by mistake and leave before they're
+         actually finished. Anything with a Tally embed gets a clearly
+         different label instead; pages without one keep plain "Next". */
+      var hasTally = (ph.items || []).some(function(it){ return it.embed === 'tally'; });
+      var nextLabel = hasTally ? "I'm done, continue" : 'Next';
+
       var nav = document.createElement('div');
       nav.className = 'nav';
       nav.innerHTML = '<button class="btn ghost nav-back" type="button">Back</button>' +
-                      '<button class="btn nav-next" type="button">Next</button>';
+                      '<button class="btn nav-next" type="button">' + nextLabel + '</button>';
       sec.appendChild(nav);
 
       anchor.parentNode.insertBefore(sec, anchor);
