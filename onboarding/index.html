@@ -197,8 +197,12 @@ h1{margin:0;color:#fff;font-variation-settings:"wdth" 114,"wght" 760;letter-spac
   border:1px solid var(--line-2);border-radius:16px;overflow:visible;
   background:linear-gradient(165deg,var(--panel),#090B10);
   box-shadow:0 30px 80px -42px rgba(0,0,0,.95)}
-.survey iframe,.scheduler iframe{width:100%;display:block;border:0;min-height:520px;transition:height .2s ease}
-@media (max-width:600px){ .survey iframe,.scheduler iframe{min-height:480px} }
+.scheduler iframe{width:100%;display:block;border:0;min-height:520px;transition:height .2s ease}
+@media (max-width:600px){ .scheduler iframe{min-height:480px} }
+/* Tally forms: a fixed-height window that the form scrolls inside of.
+   Long pages with many questions scroll within the embed instead of
+   getting clipped. */
+.survey iframe{width:100%;display:block;border:0;height:min(720px,78vh);min-height:460px}
 .scheduler .calendly-inline-widget{min-width:280px;min-height:650px}
 
 /* phase list */
@@ -571,36 +575,17 @@ footer{position:relative;z-index:3;border-top:1px solid var(--line);background:#
 
     var id = (url.match(/tally\.so\/(?:r|embed)\/([A-Za-z0-9]+)/) || [])[1];
     var src = id
-      ? 'https://tally.so/embed/' + id + '?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1'
+      ? 'https://tally.so/embed/' + id + '?alignLeft=1&hideTitle=1&transparentBackground=1'
       : url;
 
     var f = document.createElement('iframe');
     f.setAttribute('data-tally-src', src);
     f.setAttribute('loading','lazy');
-    f.width = '100%'; f.height = '0';
+    f.width = '100%';
     f.frameBorder = '0'; f.marginHeight = '0'; f.marginWidth = '0';
     f.title = title || 'Form';
     host.innerHTML = '';
     host.appendChild(f);
-
-    /* Hard cap. Tally's "one question at a time" layout vertically centers
-       each question inside a full page height block by design, so it can
-       report a real height of 900px+ for a single short question. That is
-       correct information from Tally, we just don't want to honour it
-       visually. A ResizeObserver on the iframe itself catches a jump past
-       the cap no matter what set it, Tally's own script, our own backup
-       listener below, anything, and pulls it back down immediately. Because
-       this changes the iframe's own box, not a wrapper clipping it from
-       outside, Tally's content re-centers inside the smaller space instead
-       of getting cut off. */
-    if(window.ResizeObserver){
-      var MAX_TALLY_H = 520; /* matches the CSS min-height below, so the box
-                                 never visibly jumps between loading and loaded */
-      var ro = new ResizeObserver(function(){
-        if(f.getBoundingClientRect().height > MAX_TALLY_H) f.style.height = MAX_TALLY_H + 'px';
-      });
-      ro.observe(f);
-    }
 
     var W = 'https://tally.so/widgets/embed.js';
     var load = function(){
@@ -617,30 +602,8 @@ footer{position:relative;z-index:3;border-top:1px solid var(--line);background:#
     }
   }
 
-  /* One shared backup resize listener covers every Tally iframe on the page,
-     whichever phase step it lives on. Tally's own embed.js normally handles
-     this, but if it ever misses a message or is slow on question one, the
-     Next button at the bottom of the form can end up hidden below the fold.
-     This guarantees every Tally iframe on the page grows to its real height,
-     on every question, not just the first one mounted. */
-  (function(){
-    window.addEventListener('message', function(ev){
-      if(!ev.data || typeof ev.data !== 'object') return;
-      if(String(ev.data.event || '').toLowerCase().indexOf('tally') === -1) return;
-      var h = ev.data.height || (ev.data.payload && ev.data.payload.height);
-      if(!h) return;
-      /* Tally doesn't tell us which iframe sent the message, so apply the
-         height to whichever Tally iframe is on the currently visible step.
-         Only one is ever in view at a time, so this is always correct. */
-      var liveStep = document.querySelector('.step.live');
-      var ifr = liveStep ? liveStep.querySelector('iframe[data-tally-src], iframe[src*="tally.so"]') : null;
-      /* Use the real reported height exactly, no forced floor. The CSS
-         min-height above covers the brief moment before this first message
-         arrives; once a real height comes in, later shorter questions are
-         allowed to shrink instead of leaving a dead gap under the form. */
-      if(ifr) ifr.style.height = h + 'px';
-    });
-  })();
+  /* No resize listener on purpose: the Tally embeds use a fixed-height
+     box and scroll inside it, so multi-question pages stay reachable. */
 
   mountTally(document.getElementById('surveyEmbed'), CFG.surveyUrl, 'Client onboarding survey');
 
