@@ -24,12 +24,69 @@ window.AM_ONBOARD = {
      for example https://tally.so/r/XXXXXX */
   surveyUrl    : 'https://tally.so/r/vGQ76X',
 
-  /* The Google Doc that holds the four onboarding items. */
+  /* The original Google Doc, kept as a backup reference link. Not the main
+     flow any more, the phases below are. */
   docUrl       : 'https://docs.google.com/document/d/1sJa2SQsdR5dRSaKJt0NypNDF-gxKZWDvAv53ijsWLac/edit?usp=sharing',
 
   /* The Discord invite. */
-  discordUrl   : 'https://discord.gg/HzxTjrS65p'
+  discordUrl   : 'https://discord.gg/HzxTjrS65p',
+
+  /* Where they book the final call. A Calendly link gets the real Calendly
+     widget. Any other link (a GHL calendar, etc.) loads as a plain iframe. */
+  schedulerUrl : ''
 };
+
+/* ============================================================
+   THE PHASES. Pulled straight from the onboarding doc.
+
+   Every item needs a url. Where I had the real link from your doc, it's
+   filled in already. Where your doc only had a "(CLICK HERE)" style link,
+   or named a Loom or Google Doc I can't see the address of, url is empty
+   and that item shows as [ ADD LINK ] until you paste one in.
+
+   note is optional, shown under the link in smaller text.
+   ============================================================ */
+window.AM_PHASES = [
+  { title: 'Phase 1 — Offer Creation & Research', items: [
+      { label: 'Full onboarding survey', url: '', note: 'This is a different survey from the one on step 2, confirmed not the same.' },
+      { label: 'Offer survey (Typeform)', url: 'https://form.typeform.com/to/IgNLnmQ8', note: 'Make every answer as detailed as possible.' },
+      { label: 'Voice memo product research doc', url: '', note: 'Read it, then record your answers as a voice memo and submit the recording.' },
+      { label: 'Instagram backup codes walkthrough (Loom)', url: 'https://www.loom.com/share/727b6deb68454018888050b888292c2b' },
+      { label: 'Upload 30 photos + your backup codes to Drive', url: '', note: 'Drive link emailed to you separately.' }
+  ]},
+  { title: 'Phase 3 — Core Systems Setup', items: [
+      { label: 'Create your Kit (ESP) account', url: 'https://kit.com/' },
+      { label: 'Setting up your ESP walkthrough (Loom)', url: '' },
+      { label: 'Setting up email broadcast templates (Loom)', url: '' },
+      { label: 'Add am.consulting.inc1@gmail.com to Kit, team section', url: '' },
+      { label: 'Zapier setup walkthrough (Loom)', url: 'https://www.loom.com/share/42adc40e7535495d90f2c2026b5b4a8b?sid=716510e3-a337-4227-be78-e5f799c101b3' },
+      { label: 'Add am.consulting.inc1@gmail.com to Zapier, team section', url: '' },
+      { label: 'Set up Typeform and add us as a partner', url: 'https://typeform.com', note: 'Add am.consulting.inc1@gmail.com' },
+      { label: 'Set up Calendly', url: 'https://calendly.com' }
+  ]},
+  { title: 'Phase 4 — CRM & Calendar Infrastructure', items: [
+      { label: 'Log in to your GoHighLevel subaccount', url: 'https://www.gohighlevel.com', note: 'Check your email for the activation link, then set your password.' },
+      { label: 'Connect your calendar, Zoom and your VSL hosting domain to the CRM', url: '' }
+  ]},
+  { title: 'Phase 5 — Payment Processor Access', items: [
+      { label: 'Create your Whop account', url: '', note: 'Give us admin access. Add am.consulting.inc1@gmail.com as Admin.' },
+      { label: 'Whop partners and logins walkthrough', url: '' },
+      { label: 'Set up MyAbundant financing for clients', url: 'https://myabundant.com' },
+      { label: 'MyAbundant setup and logins walkthrough', url: '' }
+  ]},
+  { title: 'Phase 6 — Launch Strategy Prep', items: [
+      { label: 'Understand the 14-day launch sequence', url: '', note: 'How we use IG stories and owned traffic after your offer is built.' }
+  ]},
+  { title: 'Phase 7 — Sales Assets', items: [
+      { label: '"Schedule your call" video walkthrough', url: '' },
+      { label: 'Application video script (doc)', url: '' },
+      { label: 'Evergreen handheld video walkthrough', url: '' },
+      { label: 'Evergreen handheld video script (doc)', url: '' },
+      { label: 'Freebie creation walkthrough', url: '' },
+      { label: 'Freebie creation doc', url: '' },
+      { label: 'Pre-call video script (doc)', url: '' }
+  ]}
+];
 </script>
 
 <style>
@@ -159,13 +216,40 @@ h1{margin:0;color:#fff;font-variation-settings:"wdth" 114,"wght" 760;letter-spac
 .vid-ph b{color:var(--amber);font-size:.84rem;font-variation-settings:"wdth" 94,"wght" 600}
 .vid-ph small{color:var(--steel-dim);font-size:.8rem;max-width:40ch}
 
-/* survey embed */
-.survey{position:relative;margin:clamp(26px,4.5vh,40px) 0 0;padding:clamp(12px,2vw,18px);
+/* survey + scheduler embeds */
+.survey,.scheduler{position:relative;margin:clamp(26px,4.5vh,40px) 0 0;padding:clamp(12px,2vw,18px);
   border:1px solid var(--line-2);border-radius:16px;overflow:visible;
   background:linear-gradient(165deg,var(--panel),#090B10);
   box-shadow:0 30px 80px -42px rgba(0,0,0,.95)}
-.survey iframe{width:100%;display:block;border:0;min-height:700px;transition:height .25s ease}
-@media (max-width:600px){ .survey iframe{min-height:620px} }
+.survey iframe,.scheduler iframe{width:100%;display:block;border:0;min-height:520px;transition:height .2s ease}
+@media (max-width:600px){ .survey iframe,.scheduler iframe{min-height:480px} }
+.scheduler .calendly-inline-widget{min-width:280px;min-height:650px}
+
+/* phase list */
+.phases{display:flex;flex-direction:column;gap:14px;margin:clamp(24px,4vh,36px) 0 0}
+.phase{border:1px solid var(--line);border-radius:14px;
+  background:linear-gradient(165deg,var(--panel),#090B10);overflow:hidden}
+.phase summary{list-style:none;cursor:pointer;padding:1.1rem 1.3rem;display:flex;
+  align-items:center;justify-content:space-between;gap:1rem;color:#fff;
+  font-variation-settings:"wdth" 106,"wght" 680;letter-spacing:-.015em;font-size:1.02rem}
+.phase summary::-webkit-details-marker{display:none}
+.phase summary::after{content:"";width:10px;height:10px;flex:0 0 auto;
+  border-right:2px solid var(--blue-hi);border-bottom:2px solid var(--blue-hi);
+  transform:rotate(45deg);transition:transform .2s ease}
+.phase[open] summary::after{transform:rotate(-135deg)}
+.phase-body{padding:0 1.3rem 1.2rem}
+.phase-item{display:flex;align-items:flex-start;gap:.7rem;padding:.65rem 0;
+  border-top:1px solid var(--line)}
+.phase-item .dot{width:7px;height:7px;margin-top:.55rem;border-radius:50%;
+  background:var(--blue-hi);flex:0 0 auto}
+.phase-item a{color:var(--paper);font-size:.97rem;text-decoration:none;font-variation-settings:"wght" 560}
+.phase-item a:hover{color:var(--blue-hi);text-decoration:underline}
+.phase-item .off{color:var(--amber);pointer-events:none;font-size:.86rem;letter-spacing:.02em}
+.phase-item small{display:block;color:var(--steel-dim);font-size:.84rem;margin-top:.15rem}
+
+.doclink{margin-left:.4rem;font-size:.92rem;white-space:nowrap}
+.doclink.off{color:var(--steel-dim);pointer-events:none}
+.div{border:0;border-top:1px solid var(--line);margin:clamp(34px,5.5vh,48px) 0}
 .survey-ph{display:flex;flex-direction:column;align-items:center;justify-content:center;
   gap:.6rem;min-height:260px;text-align:center;padding:1.5rem}
 .survey-ph b{color:var(--amber);font-size:.84rem;font-variation-settings:"wdth" 94,"wght" 600}
@@ -318,9 +402,7 @@ footer{position:relative;z-index:3;border-top:1px solid var(--line);background:#
     <span class="stepn" id="stepN">Step 1 of 3</span>
   </div>
 
-  <div class="prog" aria-hidden="true">
-    <i class="on"></i><i></i><i></i>
-  </div>
+  <div class="prog" id="prog" aria-hidden="true"></div>
 
   <!-- ============ step 1 ============ -->
   <section class="step live" id="s1">
@@ -340,7 +422,7 @@ footer{position:relative;z-index:3;border-top:1px solid var(--line);background:#
 
     <div class="nav">
       <span></span>
-      <button class="btn" type="button" data-go="2">Next</button>
+      <button class="btn nav-next" type="button">Next</button>
     </div>
   </section>
 
@@ -360,46 +442,51 @@ footer{position:relative;z-index:3;border-top:1px solid var(--line);background:#
     </div>
 
     <div class="nav">
-      <button class="btn ghost" type="button" data-go="1">Back</button>
-      <button class="btn" type="button" data-go="3">Next</button>
+      <button class="btn ghost nav-back" type="button">Back</button>
+      <button class="btn nav-next" type="button">Next</button>
     </div>
   </section>
 
-  <!-- ============ step 3 ============ -->
-  <section class="step" id="s3">
-    <p class="eyebrow">You're in</p>
-    <h1>Two things to open now</h1>
-    <p class="lede">Open the doc, then join the Discord so you can reach us directly. Do both today.</p>
+  <!-- ============ phase steps are injected here, one per phase, by the
+       script near the bottom of this file. See AM_PHASES up top. ============ -->
 
-    <ol class="ol">
-      <li><b>Fill in every single section of the doc</b><span>Anything you leave blank holds up the build.</span></li>
-      <li><b>Start with the item marked 1</b><span>It's the first thing in the doc. Do it before anything else.</span></li>
-      <li><b>Then work through 2, 3 and 4</b><span>In order, top to bottom. They build on each other.</span></li>
-    </ol>
+  <!-- ============ discord step ============ -->
+  <section class="step" id="sdiscord">
+    <p class="eyebrow">Stay connected</p>
+    <h1>Join the Discord</h1>
+    <p class="lede">Where we talk day to day. Fastest way to reach us while you work through everything above. <a id="docLink" href="#" target="_blank" rel="noopener" class="doclink off">View the original doc</a></p>
 
-    <div class="cards">
-      <a class="card off" id="docCard" href="#" target="_blank" rel="noopener">
-        <span class="ic" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg>
-        </span>
-        <strong>Join the onboarding doc</strong>
-        <span>Your four onboarding items, starting with the Tally form.</span>
-        <em id="docNote">[ ADD GOOGLE DOC LINK ]</em>
-      </a>
+    <a class="card" id="discordCard" href="#" target="_blank" rel="noopener">
+      <span class="ic" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M8.5 4.5s-3 1-4.5 3.5c-1.2 2-1.5 5.5-1.5 8 0 0 2 2.5 5 3l1-2"/><path d="M15.5 4.5s3 1 4.5 3.5c1.2 2 1.5 5.5 1.5 8 0 0-2 2.5-5 3l-1-2"/><path d="M9 14c2 1 4 1 6 0"/><circle cx="9.5" cy="11" r="1"/><circle cx="14.5" cy="11" r="1"/></svg>
+      </span>
+      <strong>Join the Discord</strong>
+      <span>Where we talk day to day. Fastest way to reach us.</span>
+      <em id="discordNote">[ ADD DISCORD INVITE ]</em>
+    </a>
 
-      <a class="card off" id="discordCard" href="#" target="_blank" rel="noopener">
-        <span class="ic" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M8.5 4.5s-3 1-4.5 3.5c-1.2 2-1.5 5.5-1.5 8 0 0 2 2.5 5 3l1-2"/><path d="M15.5 4.5s3 1 4.5 3.5c1.2 2 1.5 5.5 1.5 8 0 0-2 2.5-5 3l-1-2"/><path d="M9 14c2 1 4 1 6 0"/><circle cx="9.5" cy="11" r="1"/><circle cx="14.5" cy="11" r="1"/></svg>
-        </span>
-        <strong>Join the Discord</strong>
-        <span>Where we talk day to day. Fastest way to reach us.</span>
-        <em id="discordNote">[ ADD DISCORD INVITE ]</em>
-      </a>
+    <div class="nav">
+      <button class="btn ghost nav-back" type="button">Back</button>
+      <button class="btn nav-next" type="button">Next</button>
+    </div>
+  </section>
+
+  <!-- ============ scheduler step, the real last page ============ -->
+  <section class="step" id="sscheduler">
+    <p class="eyebrow">Last step</p>
+    <h1>Your last step is to book a call</h1>
+    <p class="lede">Once everything above is done, grab a time with us below.</p>
+
+    <div class="scheduler" id="schedulerEmbed">
+      <div class="survey-ph">
+        <b>[ ADD SCHEDULER LINK ]</b>
+        <small>Paste a Calendly or GHL calendar link into schedulerUrl at the top of this file.</small>
+      </div>
     </div>
 
     <div class="nav">
-      <button class="btn ghost" type="button" data-go="2">Back</button>
-      <button class="btn" type="button" id="finishBtn">Next</button>
+      <button class="btn ghost nav-back" type="button">Back</button>
+      <button class="btn" type="button" id="finishBtn">Finish</button>
     </div>
   </section>
 </div>
@@ -532,7 +619,11 @@ footer{position:relative;z-index:3;border-top:1px solid var(--line);background:#
       var h = ev.data.height || (ev.data.payload && ev.data.payload.height);
       if(!h) return;
       var ifr = host.querySelector('iframe');
-      if(ifr) ifr.style.height = Math.max(h, 700) + 'px';
+      /* Use the real reported height exactly, no forced floor. The CSS
+         min-height above covers the brief moment before this first message
+         arrives; once a real height comes in, later shorter questions are
+         allowed to shrink instead of leaving a dead gap under the form. */
+      if(ifr) ifr.style.height = h + 'px';
     });
   })();
 
@@ -546,30 +637,133 @@ footer{position:relative;z-index:3;border-top:1px solid var(--line);background:#
     note.textContent = label;
     note.style.color = 'var(--blue-hi)';
   }
-  wire('docCard','docNote', CFG.docUrl, 'Open the doc');
   wire('discordCard','discordNote', CFG.discordUrl, 'Open the invite');
 
+  var docLink = document.getElementById('docLink');
+  if(CFG.docUrl){ docLink.href = CFG.docUrl; docLink.classList.remove('off'); }
+
+  /* Phase content now renders as its own full step per phase, built further
+     down in this script, right before #sdiscord. See AM_PHASES up top. */
+
+  /* ---------- scheduler ---------- */
+  (function(){
+    var host = document.getElementById('schedulerEmbed');
+    if(!host || !CFG.schedulerUrl) return;
+    host.innerHTML = '';
+
+    if(/calendly\.com/.test(CFG.schedulerUrl)){
+      var div = document.createElement('div');
+      div.className = 'calendly-inline-widget';
+      div.setAttribute('data-url', CFG.schedulerUrl);
+      host.appendChild(div);
+      if(!document.querySelector('script[src="https://assets.calendly.com/assets/external/widget.js"]')){
+        var s = document.createElement('script');
+        s.src = 'https://assets.calendly.com/assets/external/widget.js';
+        s.async = true;
+        document.body.appendChild(s);
+      }
+    } else {
+      var f = document.createElement('iframe');
+      f.src = CFG.schedulerUrl;
+      f.title = 'Book your call';
+      f.loading = 'lazy';
+      host.appendChild(f);
+    }
+  })();
+
+  /* ---------- phase pages, one per phase, injected before #sdiscord ---------- */
+  (function(){
+    var phases = window.AM_PHASES || [];
+    var anchor = document.getElementById('sdiscord');
+    if(!anchor || !phases.length) return;
+
+    phases.forEach(function(ph, i){
+      var sec = document.createElement('section');
+      sec.className = 'step';
+      sec.id = 'sp' + i;
+
+      var eyebrow = document.createElement('p');
+      eyebrow.className = 'eyebrow';
+      eyebrow.textContent = 'Build phase ' + (i+1) + ' of ' + phases.length;
+      sec.appendChild(eyebrow);
+
+      var h1 = document.createElement('h1');
+      h1.textContent = ph.title;
+      sec.appendChild(h1);
+
+      var lede = document.createElement('p');
+      lede.className = 'lede';
+      lede.textContent = 'Work through everything below, then hit Next.';
+      sec.appendChild(lede);
+
+      var body = document.createElement('div');
+      body.style.marginTop = 'clamp(22px,3.6vh,32px)';
+      (ph.items || []).forEach(function(it){
+        var row = document.createElement('div');
+        row.className = 'phase-item';
+        var dot = document.createElement('span'); dot.className = 'dot';
+        row.appendChild(dot);
+        var col = document.createElement('div');
+        if(it.url){
+          var a = document.createElement('a');
+          a.href = it.url; a.target = '_blank'; a.rel = 'noopener';
+          a.textContent = it.label;
+          col.appendChild(a);
+        } else {
+          var span = document.createElement('span');
+          span.className = 'off';
+          span.textContent = '[ ADD LINK ] ' + it.label;
+          col.appendChild(span);
+        }
+        if(it.note){
+          var n = document.createElement('small');
+          n.textContent = it.note;
+          col.appendChild(n);
+        }
+        row.appendChild(col);
+        body.appendChild(row);
+      });
+      sec.appendChild(body);
+
+      var nav = document.createElement('div');
+      nav.className = 'nav';
+      nav.innerHTML = '<button class="btn ghost nav-back" type="button">Back</button>' +
+                      '<button class="btn nav-next" type="button">Next</button>';
+      sec.appendChild(nav);
+
+      anchor.parentNode.insertBefore(sec, anchor);
+    });
+  })();
+
   /* ---------- steps ---------- */
-  var total = 3, current = 1;
-  var bars = document.querySelectorAll('.prog i');
+  var STEPS = Array.prototype.map.call(document.querySelectorAll('.step'), function(s){ return s.id; });
+  var bars = [];
+  var progHost = document.getElementById('prog');
+  STEPS.forEach(function(){ var i = document.createElement('i'); progHost.appendChild(i); bars.push(i); });
   var label = document.getElementById('stepN');
 
-  function go(n){
-    n = Math.max(1, Math.min(total, n));
+  function go(id){
+    var idx = STEPS.indexOf(id);
+    if(idx === -1) return;
     document.querySelectorAll('.step').forEach(function(s){ s.classList.remove('live'); });
-    document.getElementById('s'+n).classList.add('live');
-    for(var i=0;i<bars.length;i++) bars[i].classList.toggle('on', i < n);
-    label.textContent = 'Step ' + n + ' of ' + total;
-    current = n;
-    try { history.replaceState(null,'','#step-'+n); } catch(e){}
+    document.getElementById(id).classList.add('live');
+    for(var i=0;i<bars.length;i++) bars[i].classList.toggle('on', i <= idx);
+    label.textContent = 'Step ' + (idx+1) + ' of ' + STEPS.length;
+    try { history.replaceState(null,'','#'+id); } catch(e){}
     window.scrollTo({top:0, behavior:'smooth'});
   }
+  function current(){ return (document.querySelector('.step.live')||{}).id || STEPS[0]; }
+  function goNext(){ var i = STEPS.indexOf(current()); if(i < STEPS.length-1) go(STEPS[i+1]); }
+  function goBack(){ var i = STEPS.indexOf(current()); if(i > 0) go(STEPS[i-1]); }
+
   document.addEventListener('click', function(e){
-    var b = e.target.closest ? e.target.closest('[data-go]') : null;
-    if(b) go(parseInt(b.getAttribute('data-go'),10));
+    if(e.target.closest && e.target.closest('.nav-next')) goNext();
+    if(e.target.closest && e.target.closest('.nav-back')) goBack();
   });
-  var m = (location.hash||'').match(/step-(\d)/);
-  if(m) go(parseInt(m[1],10));
+
+  go(STEPS[0]);
+  var hashId = (location.hash||'').replace('#','');
+  if(hashId && STEPS.indexOf(hashId) > -1) go(hashId);
 
   /* ---------- outro ---------- */
   (function(){
