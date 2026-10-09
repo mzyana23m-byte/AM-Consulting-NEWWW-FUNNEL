@@ -445,7 +445,10 @@ window.AM_CONSENT_VERSION = 1;
     </div>
   </section>
 
-  <section class="block" id="faqSection">
+  <!-- TEMPORARILY HIDDEN. The FAQ videos are not recorded yet.
+       To bring this back: delete the hidden attribute below and fill in
+       FAQ_VIDEOS near the bottom of this file. Nothing else to change. -->
+  <section class="block" id="faqSection" hidden>
     <h2 class="sect">Watch our most <span class="hl">frequently asked questions</span> from past clients</h2>
     <p class="lede">Real answers to the questions that come up most often before someone starts with us.</p>
     <div class="vgrid wide" id="faqGrid"></div>
@@ -547,7 +550,11 @@ var FAQ_VIDEOS = [
   })();
 
   var grid = document.getElementById('faqGrid');
-  (FAQ_VIDEOS || []).forEach(function(v, i){
+  var faqSec = document.getElementById('faqSection');
+  /* Section stays hidden until at least one real video URL is filled in. */
+  var hasVideo = (FAQ_VIDEOS || []).some(function(v){ return v && v.url; });
+  if(faqSec && hasVideo) faqSec.hidden = false;
+  (hasVideo ? FAQ_VIDEOS : []).forEach(function(v, i){
     var fig = document.createElement('figure');
     fig.className = 'faqitem';
     var box = document.createElement('div');
