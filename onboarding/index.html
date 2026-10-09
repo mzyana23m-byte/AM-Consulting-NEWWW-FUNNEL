@@ -27,6 +27,10 @@ window.AM_ONBOARD = {
   /* The original Google Doc, kept as a backup reference link. Not the main
      flow any more, the phases below are. */
   docUrl       : 'https://docs.google.com/document/d/1sJa2SQsdR5dRSaKJt0NypNDF-gxKZWDvAv53ijsWLac/edit?usp=sharing',
+  /* NOTE: that doc is only viewable by signed-in editors right now, which is
+     why it couldn't be read automatically. For the "View the original doc"
+     link to work for a client with no access, its sharing setting needs to
+     be "Anyone with the link" rather than restricted. */
 
   /* The Discord invite. */
   discordUrl   : 'https://discord.gg/HzxTjrS65p',
@@ -37,54 +41,22 @@ window.AM_ONBOARD = {
 };
 
 /* ============================================================
-   THE PHASES. Pulled straight from the onboarding doc.
-
-   Every item needs a url. Where I had the real link from your doc, it's
-   filled in already. Where your doc only had a "(CLICK HERE)" style link,
-   or named a Loom or Google Doc I can't see the address of, url is empty
-   and that item shows as [ ADD LINK ] until you paste one in.
-
-   note is optional, shown under the link in smaller text.
+   THREE PAGES. No "Phase" language anywhere, just the three things in
+   order: onboarding survey, offer survey, voice memo doc. Each is its
+   own full step, one embed, one short line of context. Nothing else.
    ============================================================ */
 window.AM_PHASES = [
-  { title: 'Phase 1 — Offer Creation & Research', items: [
-      { label: 'Full onboarding survey', url: '', note: 'This is a different survey from the one on step 2, confirmed not the same.' },
-      { label: 'Offer survey (Typeform)', url: 'https://form.typeform.com/to/IgNLnmQ8', note: 'Make every answer as detailed as possible.' },
-      { label: 'Voice memo product research doc', url: '', note: 'Read it, then record your answers as a voice memo and submit the recording.' },
-      { label: 'Instagram backup codes walkthrough (Loom)', url: 'https://www.loom.com/share/727b6deb68454018888050b888292c2b' },
-      { label: 'Upload 30 photos + your backup codes to Drive', url: '', note: 'Drive link emailed to you separately.' }
+  { title: 'Onboarding survey', items: [
+      { label: 'Onboarding survey', url: 'https://tally.so/r/Zjdo0A', embed: 'tally',
+        note: "We'll use this to get photos, logins and access to your accounts so we can start building your VSL and your offer." }
   ]},
-  { title: 'Phase 3 — Core Systems Setup', items: [
-      { label: 'Create your Kit (ESP) account', url: 'https://kit.com/' },
-      { label: 'Setting up your ESP walkthrough (Loom)', url: '' },
-      { label: 'Setting up email broadcast templates (Loom)', url: '' },
-      { label: 'Add am.consulting.inc1@gmail.com to Kit, team section', url: '' },
-      { label: 'Zapier setup walkthrough (Loom)', url: 'https://www.loom.com/share/42adc40e7535495d90f2c2026b5b4a8b?sid=716510e3-a337-4227-be78-e5f799c101b3' },
-      { label: 'Add am.consulting.inc1@gmail.com to Zapier, team section', url: '' },
-      { label: 'Set up Typeform and add us as a partner', url: 'https://typeform.com', note: 'Add am.consulting.inc1@gmail.com' },
-      { label: 'Set up Calendly', url: 'https://calendly.com' }
+  { title: 'Offer survey', items: [
+      { label: 'Offer survey', url: 'https://tally.so/r/obAebb', embed: 'tally',
+        note: 'This is where we build your actual offer with you. Make every answer as detailed as possible.' }
   ]},
-  { title: 'Phase 4 — CRM & Calendar Infrastructure', items: [
-      { label: 'Log in to your GoHighLevel subaccount', url: 'https://www.gohighlevel.com', note: 'Check your email for the activation link, then set your password.' },
-      { label: 'Connect your calendar, Zoom and your VSL hosting domain to the CRM', url: '' }
-  ]},
-  { title: 'Phase 5 — Payment Processor Access', items: [
-      { label: 'Create your Whop account', url: '', note: 'Give us admin access. Add am.consulting.inc1@gmail.com as Admin.' },
-      { label: 'Whop partners and logins walkthrough', url: '' },
-      { label: 'Set up MyAbundant financing for clients', url: 'https://myabundant.com' },
-      { label: 'MyAbundant setup and logins walkthrough', url: '' }
-  ]},
-  { title: 'Phase 6 — Launch Strategy Prep', items: [
-      { label: 'Understand the 14-day launch sequence', url: '', note: 'How we use IG stories and owned traffic after your offer is built.' }
-  ]},
-  { title: 'Phase 7 — Sales Assets', items: [
-      { label: '"Schedule your call" video walkthrough', url: '' },
-      { label: 'Application video script (doc)', url: '' },
-      { label: 'Evergreen handheld video walkthrough', url: '' },
-      { label: 'Evergreen handheld video script (doc)', url: '' },
-      { label: 'Freebie creation walkthrough', url: '' },
-      { label: 'Freebie creation doc', url: '' },
-      { label: 'Pre-call video script (doc)', url: '' }
+  { title: 'Voice memo doc', items: [
+      { label: 'Voice memo doc', url: 'https://docs.google.com/document/d/1nQBP9-LXotF_ic2ppquDeIXnPBoIYHkYS25evh8egu4/edit?tab=t.0', embed: 'doc',
+        note: "Answer these as a voice memo. It's how we get to know you and your content, not a research exercise." }
   ]}
 ];
 </script>
@@ -246,6 +218,14 @@ h1{margin:0;color:#fff;font-variation-settings:"wdth" 114,"wght" 760;letter-spac
 .phase-item a:hover{color:var(--blue-hi);text-decoration:underline}
 .phase-item .off{color:var(--amber);pointer-events:none;font-size:.86rem;letter-spacing:.02em}
 .phase-item small{display:block;color:var(--steel-dim);font-size:.84rem;margin-top:.15rem}
+
+.embed-cap{margin:1.6rem 0 0;color:#fff;font-size:1.02rem;font-variation-settings:"wght" 640}
+.phase-item + .embed-cap,.body > .embed-cap:first-child{margin-top:0}
+.embed-note{margin:.3rem 0 0;color:var(--steel-dim);font-size:.88rem}
+.docembed{position:relative;margin:.8rem 0 0;border:1px solid var(--line-2);border-radius:14px;
+  overflow:hidden;background:#fff;box-shadow:0 30px 80px -42px rgba(0,0,0,.95)}
+.docembed iframe{width:100%;height:560px;display:block;border:0}
+@media (max-width:600px){ .docembed iframe{height:460px} }
 
 .doclink{margin-left:.4rem;font-size:.92rem;white-space:nowrap}
 .doclink.off{color:var(--steel-dim);pointer-events:none}
@@ -573,24 +553,23 @@ footer{position:relative;z-index:3;border-top:1px solid var(--line);background:#
     box.appendChild(f);
   }
 
-  /* ---------- onboarding survey ---------- */
-  (function(){
-    var host = document.getElementById('surveyEmbed');
-    if(!host || !CFG.surveyUrl) return;
+  /* ---------- reusable Tally mounter, used for every Tally embed on this
+     page: the main survey, and any phase step that embeds a Tally form ---------- */
+  function mountTally(host, url, title){
+    if(!host || !url) return;
     if(host.querySelector('iframe')) return;          /* a raw embed was pasted in */
 
-    /* accept either a share link or an embed link */
-    var id = (CFG.surveyUrl.match(/tally\.so\/(?:r|embed)\/([A-Za-z0-9]+)/) || [])[1];
+    var id = (url.match(/tally\.so\/(?:r|embed)\/([A-Za-z0-9]+)/) || [])[1];
     var src = id
       ? 'https://tally.so/embed/' + id + '?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1'
-      : CFG.surveyUrl;
+      : url;
 
     var f = document.createElement('iframe');
     f.setAttribute('data-tally-src', src);
     f.setAttribute('loading','lazy');
     f.width = '100%'; f.height = '0';
     f.frameBorder = '0'; f.marginHeight = '0'; f.marginWidth = '0';
-    f.title = 'Client onboarding survey';
+    f.title = title || 'Form';
     host.innerHTML = '';
     host.appendChild(f);
 
@@ -607,18 +586,25 @@ footer{position:relative;z-index:3;border-top:1px solid var(--line);background:#
       s.src = W; s.onload = load; s.onerror = load;
       document.body.appendChild(s);
     }
+  }
 
-    /* Backup: apply Tally's own resize messages directly to the iframe.
-       Tally's embed.js normally does this already, but if it ever misses a
-       message, or is slow on the first question, the Next button at the
-       bottom of the form can end up hidden below the fold. This guarantees
-       the iframe always grows to the real height, on every question. */
+  /* One shared backup resize listener covers every Tally iframe on the page,
+     whichever phase step it lives on. Tally's own embed.js normally handles
+     this, but if it ever misses a message or is slow on question one, the
+     Next button at the bottom of the form can end up hidden below the fold.
+     This guarantees every Tally iframe on the page grows to its real height,
+     on every question, not just the first one mounted. */
+  (function(){
     window.addEventListener('message', function(ev){
       if(!ev.data || typeof ev.data !== 'object') return;
       if(String(ev.data.event || '').toLowerCase().indexOf('tally') === -1) return;
       var h = ev.data.height || (ev.data.payload && ev.data.payload.height);
       if(!h) return;
-      var ifr = host.querySelector('iframe');
+      /* Tally doesn't tell us which iframe sent the message, so apply the
+         height to whichever Tally iframe is on the currently visible step.
+         Only one is ever in view at a time, so this is always correct. */
+      var liveStep = document.querySelector('.step.live');
+      var ifr = liveStep ? liveStep.querySelector('iframe[data-tally-src], iframe[src*="tally.so"]') : null;
       /* Use the real reported height exactly, no forced floor. The CSS
          min-height above covers the brief moment before this first message
          arrives; once a real height comes in, later shorter questions are
@@ -626,6 +612,8 @@ footer{position:relative;z-index:3;border-top:1px solid var(--line);background:#
       if(ifr) ifr.style.height = h + 'px';
     });
   })();
+
+  mountTally(document.getElementById('surveyEmbed'), CFG.surveyUrl, 'Client onboarding survey');
 
   /* ---------- links ---------- */
   function wire(cardId, noteId, url, label){
@@ -682,23 +670,69 @@ footer{position:relative;z-index:3;border-top:1px solid var(--line);background:#
       sec.className = 'step';
       sec.id = 'sp' + i;
 
-      var eyebrow = document.createElement('p');
-      eyebrow.className = 'eyebrow';
-      eyebrow.textContent = 'Build phase ' + (i+1) + ' of ' + phases.length;
-      sec.appendChild(eyebrow);
-
       var h1 = document.createElement('h1');
       h1.textContent = ph.title;
       sec.appendChild(h1);
 
-      var lede = document.createElement('p');
-      lede.className = 'lede';
-      lede.textContent = 'Work through everything below, then hit Next.';
-      sec.appendChild(lede);
+      /* the single item's own note is the page's instruction line, shown
+         right under the heading, no "Phase" language anywhere */
+      var firstNote = (ph.items && ph.items[0] && ph.items[0].note) || '';
+      if(firstNote){
+        var lede = document.createElement('p');
+        lede.className = 'lede';
+        lede.textContent = firstNote;
+        sec.appendChild(lede);
+      }
 
       var body = document.createElement('div');
       body.style.marginTop = 'clamp(22px,3.6vh,32px)';
-      (ph.items || []).forEach(function(it){
+      (ph.items || []).forEach(function(it, itIdx){
+
+        /* an embedded Tally form or Google Doc gets its own full block,
+           not a one-line link row. the note already became the page's
+           lede above, so it isn't repeated here. */
+        if(it.embed && it.url){
+          var box = document.createElement('div');
+          var boxId = 'embed-sp' + i + '-' + itIdx;
+          box.id = boxId;
+
+          if(it.embed === 'tally'){
+            box.className = 'survey';
+            box.innerHTML = '<div class="survey-ph"><b>Loading form…</b></div>';
+            mountTally(box, it.url, it.label);
+          } else if(it.embed === 'doc'){
+            box.className = 'docembed';
+            var docId = (it.url.match(/\/document\/d\/([^/]+)/) || [])[1];
+            var src = docId ? 'https://docs.google.com/document/d/' + docId + '/preview' : it.url;
+            var di = document.createElement('iframe');
+            di.src = src; di.loading = 'lazy'; di.title = it.label;
+            box.appendChild(di);
+          }
+          body.appendChild(box);
+          return;
+        }
+
+        /* a plain instructional line, no link, nothing to click */
+        if(it.info){
+          var irow = document.createElement('div');
+          irow.className = 'phase-item';
+          var idot = document.createElement('span'); idot.className = 'dot';
+          irow.appendChild(idot);
+          var icol = document.createElement('div');
+          var ilabel = document.createElement('span');
+          ilabel.textContent = it.label;
+          icol.appendChild(ilabel);
+          if(it.note){
+            var inote = document.createElement('small');
+            inote.textContent = it.note;
+            icol.appendChild(inote);
+          }
+          irow.appendChild(icol);
+          body.appendChild(irow);
+          return;
+        }
+
+        /* a normal outbound link, or [ ADD LINK ] if empty */
         var row = document.createElement('div');
         row.className = 'phase-item';
         var dot = document.createElement('span'); dot.className = 'dot';
