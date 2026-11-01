@@ -117,68 +117,126 @@ p{margin:0 0 1em}
 
 
 /* ---------- hero ---------- */
-.hero{position:relative;padding:clamp(36px,5vh,60px) 0 clamp(30px,4vh,56px);overflow:hidden;text-align:center;
+.hero{position:relative;padding:clamp(84px,10vh,108px) 0 clamp(26px,3vh,48px);overflow:hidden;text-align:center;
   min-height:100svh;display:flex;align-items:center;background:#070B13}
 .hero .wrap{max-width:1120px}
 
 /* ---- the reference look: a giant dark planet rising from the bottom with a
    bright glowing rim across the top, soft atmosphere above it, all in blue ---- */
 
-/* 0. starfield across the whole sky */
+/* ===== planet hero, modelled on the reference =====
+   --pd  planet diameter, --rt  how far down the rim's peak sits */
+.hero{--pd:118vw;--rt:clamp(28px,4.5vh,44px)}
+@media (max-width:760px){ .hero{--pd:170vw;--rt:22px} }
+
+/* dense starfield over the whole sky, drifting slowly */
 .hero-stars{position:absolute;inset:0;z-index:0;pointer-events:none;
-  /* three tiled star layers at different sizes so the sky fills evenly
-     without an obvious repeating pattern */
+  /* layer A: one 200x190 tile, ten small stars */
   background-image:
-    radial-gradient(1.6px 1.6px at 20px 30px,#fff,transparent),
-    radial-gradient(1.1px 1.1px at 140px 90px,rgba(210,225,255,.9),transparent),
-    radial-gradient(1.3px 1.3px at 260px 180px,#fff,transparent),
-    radial-gradient(1px 1px at 80px 220px,rgba(200,220,255,.8),transparent),
-    radial-gradient(1.2px 1.2px at 200px 260px,rgba(255,255,255,.85),transparent),
-    radial-gradient(1px 1px at 330px 60px,rgba(200,220,255,.75),transparent),
-    radial-gradient(1.4px 1.4px at 60px 140px,rgba(255,255,255,.7),transparent),
-    radial-gradient(.9px .9px at 300px 300px,rgba(190,210,255,.7),transparent);
-  background-size:360px 340px,360px 340px,360px 340px,360px 340px,
-                  520px 470px,520px 470px,250px 260px,250px 260px;
-  background-repeat:repeat;
-  -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 40%,transparent 62%);
-          mask-image:linear-gradient(180deg,#000 0%,#000 40%,transparent 62%);
-  animation:twinkle 5.5s ease-in-out infinite}
-@keyframes twinkle{0%,100%{opacity:.85}50%{opacity:.5}}
+    radial-gradient(1.3px 1.3px at 23px 41px,#fff,transparent),
+    radial-gradient(1.1px 1.1px at 97px 13px,rgba(220,232,255,.95),transparent),
+    radial-gradient(1px 1px at 151px 78px,#fff,transparent),
+    radial-gradient(1.2px 1.2px at 61px 122px,rgba(210,225,255,.9),transparent),
+    radial-gradient(1px 1px at 183px 147px,#fff,transparent),
+    radial-gradient(1.1px 1.1px at 9px 171px,rgba(220,232,255,.85),transparent),
+    radial-gradient(1px 1px at 128px 176px,#fff,transparent),
+    radial-gradient(1.2px 1.2px at 170px 32px,rgba(220,232,255,.9),transparent),
+    radial-gradient(1px 1px at 44px 88px,#fff,transparent),
+    radial-gradient(1px 1px at 112px 108px,rgba(210,225,255,.85),transparent);
+  background-size:200px 190px;
+  -webkit-mask-image:linear-gradient(180deg,#000 60%,transparent 96%);
+          mask-image:linear-gradient(180deg,#000 60%,transparent 96%);
+  animation:twinkle 5s ease-in-out infinite, starDrift 55s linear infinite}
+@keyframes twinkle{0%,100%{opacity:.95}50%{opacity:.65}}
+@keyframes starDrift{from{background-position:0 0}to{background-position:-200px 190px}}
 
-/* 1. the atmospheric haze glowing above the planet's rim */
-.hero-glow{position:absolute;left:50%;top:-4%;width:120%;height:60%;transform:translateX(-50%);z-index:0;pointer-events:none;
-  background:radial-gradient(48% 100% at 50% 100%,rgba(120,175,255,.6),rgba(58,110,198,.22) 46%,transparent 70%);
-  filter:blur(3px)}
+/* layer B: bigger, brighter stars on a wider tile, drifting the other way
+   and faster, so the motion reads clearly and the sky has depth */
+.hero-stars::before{content:"";position:absolute;inset:0;
+  background-image:
+    radial-gradient(1.9px 1.9px at 70px 60px,#fff,transparent),
+    radial-gradient(1.6px 1.6px at 260px 200px,rgba(225,238,255,1),transparent),
+    radial-gradient(2.1px 2.1px at 400px 110px,#fff,transparent),
+    radial-gradient(1.6px 1.6px at 150px 260px,rgba(225,238,255,.95),transparent),
+    radial-gradient(1.8px 1.8px at 470px 250px,#fff,transparent);
+  background-size:520px 300px;
+  animation:starDrift2 34s linear infinite}
+@keyframes starDrift2{from{background-position:0 0}to{background-position:520px 300px}}
 
-/* 2. the planet: a huge circle pushed mostly below the fold, so only its top
-   arc shows. The body is near-black; the lit rim is drawn by hero-horizon. */
-.hero-planet{position:absolute;left:50%;top:20%;width:210vw;height:210vw;transform:translateX(-50%);
+/* layer C: a faint dust of tiny stars, slowest, for background density */
+.hero-stars::after{content:"";position:absolute;inset:0;opacity:.7;
+  background-image:
+    radial-gradient(.8px .8px at 12px 20px,#fff,transparent),
+    radial-gradient(.8px .8px at 64px 58px,rgba(210,225,255,.9),transparent),
+    radial-gradient(.7px .7px at 102px 14px,#fff,transparent),
+    radial-gradient(.8px .8px at 36px 96px,rgba(210,225,255,.9),transparent),
+    radial-gradient(.7px .7px at 118px 88px,#fff,transparent);
+  background-size:130px 110px;
+  animation:starDrift3 80s linear infinite}
+@keyframes starDrift3{from{background-position:0 0}to{background-position:-130px -110px}}
+@media (prefers-reduced-motion:reduce){ .hero-stars,.hero-stars::before,.hero-stars::after{animation:none} }
+
+/* two soft diagonal light beams falling from the top corners */
+.hero-glow{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.hero-glow::before,.hero-glow::after{content:"";position:absolute;top:-20%;width:42vw;height:95%;
+  background:radial-gradient(50% 50% at 50% 50%,rgba(90,150,240,.5),transparent 70%);filter:blur(36px)}
+.hero-glow::before{left:2%;transform:rotate(24deg)}
+.hero-glow::after{right:2%;transform:rotate(-24deg)}
+
+/* the heavy bright bloom sitting at the very top centre of the rim */
+.hero-crest{position:absolute;left:50%;top:calc(var(--rt) - 9vh);width:min(70vw,980px);height:26vh;
+  transform:translateX(-50%);z-index:1;pointer-events:none;
+  background:radial-gradient(50% 50% at 50% 50%,
+     rgba(235,244,255,.78) 0%,
+     rgba(160,205,255,.52) 20%,
+     rgba(95,155,240,.22) 46%,
+     transparent 72%);
+  filter:blur(6px);animation:crestBreathe 7s ease-in-out infinite}
+@keyframes crestBreathe{0%,100%{opacity:1}50%{opacity:.8}}
+@media (max-width:760px){ .hero-crest{width:120vw;height:22vh;top:calc(var(--rt) - 7vh)} }
+@media (prefers-reduced-motion:reduce){ .hero-crest{animation:none} }
+
+/* the planet body: dark, with an atmosphere that glows just inside the rim */
+.hero-planet{position:absolute;left:50%;top:var(--rt);width:var(--pd);height:var(--pd);transform:translateX(-50%);
   border-radius:50%;z-index:1;pointer-events:none;
-  background:
-    radial-gradient(circle at 50% 0%,
-      rgba(95,150,235,.4) 0%,
-      rgba(44,70,124,.26) 3.5%,
-      rgba(18,28,50,.66) 8%,
-      rgba(9,13,24,.94) 14%,
-      #060A11 24%);
-  box-shadow:inset 0 2px 50px -4px rgba(140,190,255,.55)}
+  background:radial-gradient(circle at 50% 0%,
+     rgba(110,165,245,.42) 0%,
+     rgba(52,92,165,.26) 6%,
+     rgba(16,24,44,.62) 13%,
+     rgba(8,12,22,.9) 24%,
+     #060A11 42%);
+  box-shadow:inset 0 0 90px -10px rgba(90,150,235,.45)}
 
-/* 3. the bright, crisp glowing rim on the very top edge of the planet arc */
-.hero-horizon{position:absolute;left:50%;top:20%;width:210vw;height:210vw;transform:translateX(-50%);
+/* the rim, brightest at the top and fading down the sides */
+.hero-horizon{position:absolute;left:50%;top:var(--rt);width:var(--pd);height:var(--pd);transform:translateX(-50%);
   border-radius:50%;z-index:1;pointer-events:none;
-  box-shadow:inset 0 2px 4px 0 rgba(225,240,255,1),
-             inset 0 5px 18px 0 rgba(175,215,255,.95),
-             inset 0 12px 60px 0 rgba(120,175,250,.7),
-             inset 0 30px 150px 0 rgba(66,128,218,.38)}
-@media (max-width:760px){
-  .hero-planet,.hero-horizon{top:26%;width:320vw;height:320vw}
-  .hero-glow{top:0%;height:46%}
-}
-.pill{display:inline-flex;align-items:center;gap:.5rem;margin:0;padding:.55rem 1.3rem;
-  border:1px solid rgba(111,163,240,.4);border-radius:999px;
-  background:rgba(58,110,198,.14);color:#9DC1F6;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;
-  font-variation-settings:"wdth" 96,"wght" 640;
-  box-shadow:0 0 30px -6px rgba(111,163,240,.5)}
+  border-top:2px solid rgba(215,235,255,.95);
+  box-shadow:inset 0 3px 8px 0 rgba(200,228,255,.85),
+             inset 0 10px 40px 0 rgba(120,175,250,.55);
+  -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 6%,transparent 34%);
+          mask-image:linear-gradient(180deg,#000 0%,#000 6%,transparent 34%)}
+
+/* the halo glowing outward above the rim */
+.hero-halo{position:absolute;left:50%;top:calc(var(--rt) - 70px);width:calc(var(--pd) + 140px);height:calc(var(--pd) + 140px);
+  transform:translateX(-50%);border-radius:50%;z-index:1;pointer-events:none;
+  background:radial-gradient(closest-side circle,
+     transparent calc(100% - 72px),
+     rgba(170,210,255,.6) calc(100% - 70px),
+     rgba(110,170,250,.28) calc(100% - 44px),
+     rgba(80,140,230,.08) calc(100% - 18px),
+     transparent 100%);
+  -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 5%,transparent 30%);
+          mask-image:linear-gradient(180deg,#000 0%,#000 5%,transparent 30%)}
+.pill{display:inline-flex;align-items:center;gap:.6rem;margin:0;padding:.55rem 1.15rem;
+  border:1px solid rgba(190,210,240,.18);border-radius:999px;
+  background:rgba(20,28,46,.55);backdrop-filter:blur(6px);
+  color:#C9D6EC;font-size:.92rem;letter-spacing:0;text-transform:none;
+  font-variation-settings:"wdth" 100,"wght" 480}
+.pill-dot{width:7px;height:7px;border-radius:50%;flex:0 0 auto;background:#6FA3F0;
+  box-shadow:0 0 0 3px rgba(111,163,240,.18),0 0 10px rgba(111,163,240,.9);
+  animation:pillPulse 2.4s ease-in-out infinite}
+@keyframes pillPulse{0%,100%{opacity:1}50%{opacity:.45}}
+@media (prefers-reduced-motion:reduce){ .pill-dot{animation:none} }
 .steps{list-style:none;margin:clamp(20px,3vh,30px) 0 0;padding:0;display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap}
 .step{display:flex;align-items:center;gap:.8rem;border:1px solid var(--line-2);border-radius:12px;
   background:rgba(21,25,35,.7);padding:.85rem 1.25rem;font-size:.95rem;color:#C3CAD6;
@@ -263,7 +321,7 @@ p{margin:0 0 1em}
 .vsl-ph-t{color:var(--amber);font-size:.88rem;font-variation-settings:"wdth" 94,"wght" 600;letter-spacing:.02em}
 .vsl-ph-s{color:var(--steel-dim);font-size:.85rem;max-width:36ch}
 .hero-founders{margin:1.7rem auto 0;max-width:62ch}
-.hero .display{max-width:22ch;margin:.85rem auto 0;font-size:clamp(1.6rem,3vw,2.6rem);line-height:1.05}
+.hero .display{max-width:27ch;margin:.85rem auto 0;font-size:clamp(1.6rem,3vw,2.6rem);line-height:1.05}
 .hero .display .hl{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.005em;
   background:linear-gradient(180deg,#BBD4FA,#6FA3F0);-webkit-background-clip:text;background-clip:text;color:transparent;
   padding:0 .04em}
@@ -656,12 +714,14 @@ window.AM_CONSENT_VERSION = 1;
   <div class="hero-glow" aria-hidden="true"></div>
   <div class="hero-planet" aria-hidden="true"></div>
   <div class="hero-horizon" aria-hidden="true"></div>
+  <div class="hero-halo" aria-hidden="true"></div>
+  <div class="hero-crest" aria-hidden="true"></div>
   <div class="wrap">
-    <p class="pill">Coaches &amp; Experts</p>
+    <p class="pill"><i class="pill-dot" aria-hidden="true"></i>For coaches &amp; education businesses</p>
 
-    <h1 class="display">Watch How <span class="hl">Coaches Build Systems</span> That Actually Let Them Scale</h1>
+    <h1 class="display">Watch How We Install the Systems That <span class="hl">Turn Your Audience Into Clients</span></h1>
 
-    <p class="lede hero-sub">We build and run the ads, funnels and sales systems that turn your audience into booked calls.</p>
+    <p class="lede hero-sub">Offer, funnel, CRM, automations and backend selling systems. You stay the face. We build everything behind it.</p>
 
     <div class="vsl" id="vsl">
       <div class="vsl-frame vsl-wistia">
@@ -672,8 +732,6 @@ window.AM_CONSENT_VERSION = 1;
     <div class="hero-cta">
       <a class="btn btn-primary btn-glow" href="#book-top">Apply to Work With AM Consulting</a>
     </div>
-
-    <p class="small hero-founders">We're Omar Mzyan and Ayman Shoeib. We built AM Consulting because we'd had enough of agencies that treat a coach like a number and vanish once the build is done.</p>
 
     <div class="book-top-block" id="book-top">
       <h2 class="book-top-h">Apply to install the system</h2>
@@ -1107,6 +1165,8 @@ function makeFlow(cv, o){
   }
   return {layout:layout};
 }
+
+
 
 /* hero flow canvas removed with the starfield; guard in case any element remains */
 var heroFlowEl = document.getElementById('flow');
