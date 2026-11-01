@@ -538,28 +538,16 @@ body{background:var(--void);color:var(--paper)}
 .mq-item b{color:#4B5A75}
 footer{background:#EAF0F8}
 
-/* ===== Hero background: grid, light beam, tilted documents (light theme) ===== */
-.hero{background:linear-gradient(180deg,#DCE9FF 0%,#EAF2FF 40%,#F5F8FD 80%)}
+/* ===== Hero: light colourway, with a strong blue light shaft ===== */
+.hero{background:linear-gradient(180deg,#DCE8FF 0%,#E9F1FF 40%,#F5F8FD 85%)}
 .hero-grid{position:absolute;inset:0;z-index:0;pointer-events:none;
   background-image:
-    linear-gradient(rgba(22,45,90,.07) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(22,45,90,.07) 1px,transparent 1px);
+    linear-gradient(rgba(22,45,90,.08) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(22,45,90,.08) 1px,transparent 1px);
   background-size:118px 118px;background-position:center top;
-  -webkit-mask-image:radial-gradient(130% 85% at 50% 0%,#000 25%,transparent 85%);
-          mask-image:radial-gradient(130% 85% at 50% 0%,#000 25%,transparent 85%)}
-.hero-beam{position:absolute;left:50%;top:-12%;width:min(980px,95vw);height:80vh;
-  transform:translateX(-50%);z-index:0;pointer-events:none;
-  background:
-    radial-gradient(22% 40% at 50% 0%,rgba(255,255,255,.95),transparent 70%),
-    radial-gradient(48% 70% at 50% 0%,rgba(61,123,232,.22),transparent 75%);
-  filter:blur(6px);animation:beamBreathe 8s ease-in-out infinite}
-.hero-beam::after{content:"";position:absolute;inset:0;opacity:.6;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='700'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.006 .018' numOctaves='4' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1.5 -.4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E") center top/cover;
-  -webkit-mask-image:radial-gradient(40% 65% at 50% 0%,#000,transparent 80%);
-          mask-image:radial-gradient(40% 65% at 50% 0%,#000,transparent 80%)}
-@keyframes beamBreathe{0%,100%{opacity:1}50%{opacity:.85}}
-@media (prefers-reduced-motion:reduce){ .hero-beam{animation:none} }
-.hero-stars{opacity:.45}
+  -webkit-mask-image:linear-gradient(180deg,#000 40%,transparent 95%);
+          mask-image:linear-gradient(180deg,#000 40%,transparent 95%)}
+.hero-stars{opacity:.5}
 .hero-stars::after{display:none}
 .hero-doc{position:absolute;top:-7%;width:40%;height:110%;z-index:-1;pointer-events:none;
   border-radius:6px;padding:7% 8% 0;
@@ -576,6 +564,25 @@ footer{background:#EAF0F8}
 .hero-doc--l{left:-31%;transform:rotate(-11deg);transform-origin:right bottom}
 .hero-doc--r{right:-31%;transform:rotate(11deg);transform-origin:left bottom;text-align:right}
 @media (max-width:900px){ .hero-doc{display:none} }
+
+/* ===== Hero: soft blue aurora drifting across the top ===== */
+.hero-aurora{position:absolute;left:0;right:0;top:0;height:78vh;z-index:0;pointer-events:none;overflow:hidden;
+  -webkit-mask-image:linear-gradient(180deg,#000 35%,transparent 100%);
+          mask-image:linear-gradient(180deg,#000 35%,transparent 100%)}
+.hero-aurora i{position:absolute;display:block;border-radius:50%;filter:blur(70px);will-change:transform}
+.hero-aurora i:nth-child(1){width:62vw;height:36vh;left:-8vw;top:-12vh;
+  background:radial-gradient(closest-side,rgba(61,123,232,.55),transparent);
+  animation:aurA 22s ease-in-out infinite alternate}
+.hero-aurora i:nth-child(2){width:58vw;height:34vh;right:-10vw;top:-8vh;
+  background:radial-gradient(closest-side,rgba(111,163,240,.6),transparent);
+  animation:aurB 26s ease-in-out infinite alternate}
+.hero-aurora i:nth-child(3){width:48vw;height:30vh;left:26vw;top:-14vh;
+  background:radial-gradient(closest-side,rgba(47,99,199,.45),transparent);
+  animation:aurC 30s ease-in-out infinite alternate}
+@keyframes aurA{to{transform:translate(14vw,6vh) scale(1.1)}}
+@keyframes aurB{to{transform:translate(-16vw,5vh) scale(.92)}}
+@keyframes aurC{to{transform:translate(6vw,8vh) scale(1.15)}}
+@media (prefers-reduced-motion:reduce){ .hero-aurora i{animation:none} }
 </style>
 
 
@@ -854,7 +861,7 @@ window.AM_CONSENT_VERSION = 1;
 
 <section class="hero" id="hero">
   <div class="hero-grid" aria-hidden="true"></div>
-  <div class="hero-beam" aria-hidden="true"></div>
+  <div class="hero-aurora" aria-hidden="true"><i></i><i></i><i></i></div>
   <div class="hero-stars" aria-hidden="true"></div>
   <div class="wrap">
     <p class="pill"><i class="pill-dot" aria-hidden="true"></i>For coaches &amp; education businesses</p>
