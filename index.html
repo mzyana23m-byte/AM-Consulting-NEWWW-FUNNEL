@@ -328,6 +328,9 @@ p{margin:0 0 1em}
   text-shadow:0 1px 10px rgba(7,11,19,.85),0 0 2px rgba(7,11,19,.7)}
 .hero .display{text-shadow:0 2px 18px rgba(7,11,19,.7)}
 .hero-cta{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:clamp(28px,4vh,44px);justify-content:center}
+.hero-proof{margin:clamp(18px,2.6vh,26px) auto 0;max-width:60ch;color:var(--steel);font-size:.95rem;line-height:1.45}
+.hero-proof + .hero-cta{margin-top:clamp(14px,2vh,20px)}
+.book-top-sub{margin:.55rem 0 0;color:var(--steel);font-size:1rem;line-height:1.45}
 
 /* ---------- marquee ---------- */
 .mq{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;background:rgba(14,16,22,.5)}
@@ -590,6 +593,20 @@ footer{background:#EAF0F8}
     box-shadow:0 0 22px 2px rgba(61,123,232,.28),0 18px 40px -18px rgba(47,99,199,.45)}
   .vsl-wistia,.vsl-frame{box-shadow:none}
 }
+
+/* ---------- system points ---------- */
+.sys{padding:clamp(64px,9vh,112px) 0;text-align:center}
+.sys-head .h2{margin:0 auto;max-width:22ch}
+.sys-head .lede{margin:1.1rem auto 0;max-width:52ch}
+.sys-grid{list-style:none;padding:0;margin:clamp(28px,4.5vh,48px) auto 0;max-width:1040px;display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.6vw,18px);text-align:left}
+.sys-item{background:#fff;border:1px solid var(--line-2);border-radius:14px;padding:1.3rem 1.3rem 1.4rem;
+  box-shadow:0 18px 44px -32px rgba(22,45,90,.45)}
+.sys-n{display:block;color:var(--blue-hi);font-size:.8rem;font-variation-settings:"wght" 700;letter-spacing:.08em}
+.sys-item h3{margin:.55rem 0 .35rem;font-size:1.08rem;font-variation-settings:"wdth" 108,"wght" 680;letter-spacing:-.018em;color:var(--paper)}
+.sys-item p{margin:0;color:var(--steel);font-size:.93rem;line-height:1.5}
+@media (max-width:860px){.sys-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.sys-grid{grid-template-columns:1fr}}
 </style>
 
 
@@ -871,11 +888,11 @@ window.AM_CONSENT_VERSION = 1;
   <div class="hero-aurora" aria-hidden="true"><i></i><i></i><i></i></div>
   <div class="hero-stars" aria-hidden="true"></div>
   <div class="wrap">
-    <p class="pill"><i class="pill-dot" aria-hidden="true"></i>For coaches &amp; education businesses</p>
+    <p class="pill"><i class="pill-dot" aria-hidden="true"></i>For coaches already doing $20K+ a month</p>
 
-    <h1 class="display">Watch How We Install the Systems That <span class="hl">Turn Your Audience Into Clients</span></h1>
+    <h1 class="display">We Add $25K in Revenue to Your Coaching Business in 45 Days <span class="hl">Or You Don&rsquo;t Pay</span></h1>
 
-    <p class="lede hero-sub">Offer, funnel, CRM, automations and backend selling systems. You stay the face. We build everything behind it.</p>
+    <p class="lede hero-sub">We rebuild your offer, build your funnel, and install the sales system that turns your leads into paying clients.</p>
 
     <div class="vsl" id="vsl">
       <div class="vsl-frame vsl-wistia">
@@ -884,11 +901,12 @@ window.AM_CONSENT_VERSION = 1;
     </div>
 
     <div class="hero-cta">
-      <a class="btn btn-primary btn-glow" href="#book-top">Apply to Work With AM Consulting</a>
+      <a class="btn btn-primary btn-glow" href="#book-top">Book Your Free Call</a>
     </div>
 
     <div class="book-top-block" id="book-top">
-      <h2 class="book-top-h">Apply to install the system</h2>
+      <h2 class="book-top-h">Book your free call</h2>
+      <p class="book-top-sub">Answer a few quick questions, then pick a time.</p>
       <div class="book-embed">
         <iframe data-tally-src="https://tally.so/embed/VLkQoJ?alignLeft=1&amp;hideTitle=1&amp;transparentBackground=1&amp;dynamicHeight=1"
   loading="lazy" width="100%" height="0" frameborder="0"
@@ -902,31 +920,22 @@ window.AM_CONSENT_VERSION = 1;
 <div class="mq" aria-hidden="true">
   <div class="mq-in" id="mq">
     <div class="mq-item">
-      <b>Offer architecture</b><b>Funnel &amp; VSL</b><b class="hi">Sales assets</b><b>CRM buildout in GHL</b><b>Zapier &amp; ManyChat automations</b><b>Email and SMS nurture</b><b class="hi">Setter &amp; closer hiring</b><b>Scripts and training</b><b>Paid ads</b><b>Webinars and launches</b><b class="hi">Tracking dashboards</b><b>Weekly reporting</b>
+      <b>Offer architecture</b><b class="hi">Funnel &amp; VSL</b><b>Webinar funnels</b><b class="hi">Sales system</b><b>Scripts and training</b><b class="hi">Tracking dashboards</b>
     </div>
   </div>
 </div>
 
-<section class="deep" id="breakdown" data-bead>
+<section class="sys" id="system" data-bead>
   <div class="wrap">
-    <div class="rv deep-head">
-      <h2 class="h2">Watch a deeper breakdown of what we do</h2>
-      <p class="lede">Two walkthroughs. The full system, and the backend that runs it.</p>
+    <div class="rv sys-head">
+      <h2 class="h2">The system we install</h2>
+      <p class="lede">Three pieces, built by our team. You keep creating. We run everything behind it.</p>
     </div>
-    <div class="deep-grid rv">
-      <figure class="deep-item">
-        <div class="vsl vsl-sm">
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/VHUIQ4cOII4?si=fEkqCXQYuPYB_xwx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-        <figcaption><h3>The full system walkthrough</h3><p>Every piece we build, in the order we build it, and who owns what once it is live.</p><a class="watch-out" href="https://www.youtube.com/watch?v=VHUIQ4cOII4" target="_blank" rel="noopener">Watch on YouTube</a></figcaption>
-      </figure>
-      <figure class="deep-item">
-        <div class="vsl vsl-sm">
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/oLwRsRiW9_I?si=-makS3RI44sdRfv1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-        <figcaption><h3>The full backend breakdown</h3><p>The CRM, automations, pipelines and reporting working behind the scenes so no lead slips through.</p><a class="watch-out" href="https://www.youtube.com/watch?v=oLwRsRiW9_I" target="_blank" rel="noopener">Watch on YouTube</a></figcaption>
-      </figure>
-    </div>
+    <ol class="sys-grid rv">
+      <li class="sys-item"><span class="sys-n">01</span><h3>Offer architecture</h3><p>We rebuild your offer so it is positioned, priced and packaged to sell at a premium.</p></li>
+      <li class="sys-item"><span class="sys-n">02</span><h3>Funnel &amp; VSL</h3><p>Ads, landing page and sales video that turn cold traffic into booked calls.</p></li>
+      <li class="sys-item"><span class="sys-n">03</span><h3>Webinar funnels</h3><p>A live or evergreen webinar that takes your audience from interested to bought in one sitting.</p></li>
+    </ol>
   </div>
 </section>
 
@@ -1000,6 +1009,31 @@ window.AM_CONSENT_VERSION = 1;
   </div>
 </section>
 
+<section class="deep" id="breakdown" data-bead>
+  <div class="wrap">
+    <div class="rv deep-head">
+      <h2 class="h2">Watch a deeper breakdown of what we do</h2>
+      <p class="lede">Two walkthroughs. The full system, and the backend that runs it.</p>
+    </div>
+    <div class="deep-grid rv">
+      <figure class="deep-item">
+        <div class="vsl vsl-sm">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/VHUIQ4cOII4?si=fEkqCXQYuPYB_xwx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <figcaption><h3>The full system walkthrough</h3><p>Every piece we build, in the order we build it, and who owns what once it is live.</p><a class="watch-out" href="https://www.youtube.com/watch?v=VHUIQ4cOII4" target="_blank" rel="noopener">Watch on YouTube</a></figcaption>
+      </figure>
+      <figure class="deep-item">
+        <div class="vsl vsl-sm">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/oLwRsRiW9_I?si=-makS3RI44sdRfv1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <figcaption><h3>The full backend breakdown</h3><p>The CRM, automations, pipelines and reporting working behind the scenes so no lead slips through.</p><a class="watch-out" href="https://www.youtube.com/watch?v=oLwRsRiW9_I" target="_blank" rel="noopener">Watch on YouTube</a></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+
+
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Enlarged screenshot" hidden>
   <button type="button" class="lb-x" aria-label="Close">&times;</button>
   <img id="lbImg" alt="">
@@ -1041,8 +1075,9 @@ window.AM_CONSENT_VERSION = 1;
     </div>
     <div style="display:grid;gap:1rem;justify-items:flex-end">
       <nav aria-label="Footer">
-            <a href="#breakdown">Breakdown</a>
+            <a href="#system">System</a>
         <a href="#results">Results</a>
+        <a href="#breakdown">Breakdown</a>
         <a href="#book">Book a call</a>
         <a href="/privacy-policy">Privacy</a> <a href="/terms">Terms</a> <a href="/privacy-choices">Privacy choices</a>
       </nav>
