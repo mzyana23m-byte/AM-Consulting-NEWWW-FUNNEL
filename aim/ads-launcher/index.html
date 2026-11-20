@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -137,6 +137,12 @@
   #pinGate .btn{width:100%;margin-top:12px}
   #pinErr{color:#f6a3a3;font-size:12.5px;min-height:18px;margin-top:10px}
   body.locked main,body.locked header,body.locked .demo{display:none!important}
+  body[data-mode="adset"] .m-sets{display:none!important}
+  body:not([data-mode="new"]) .m-new{display:none!important}
+  body[data-mode="new"] .m-pick{display:none!important}
+  body[data-mode="campaign"] #adsetWrap{display:none!important}
+  #modes{margin-bottom:4px}
+  .info{font-size:12.5px;color:var(--muted);margin-top:8px}
 </style>
 </head>
 <body class="locked">
@@ -210,14 +216,24 @@
 
   <!-- 1 -->
   <section class="card">
-    <h2><span class="n">1</span>Campaign</h2>
-    <p class="sub">Who it's for, what Meta should optimize for, and the daily budget. Everything else is set for you.</p>
-    <div class="grid g2">
+    <h2><span class="n">1</span>Where the ads go</h2>
+    <p class="sub">Add to what you already run, or start fresh. Only the settings you need show up.</p>
+    <div class="structs" id="modes">
+      <button class="struct" data-m="adset"><b>Existing ad set</b><span>Add these ads into an ad set you already run.</span></button>
+      <button class="struct" data-m="campaign"><b>Existing campaign</b><span>New ad sets inside a campaign you already run.</span></button>
+      <button class="struct" data-m="new"><b>New campaign</b><span>Build campaign, ad sets and ads from scratch.</span></button>
+    </div>
+    <div class="grid g2 m-pick" style="margin-top:14px">
+      <div id="campWrap"><label class="f">Campaign</label><select id="selCampaign"><option value="">Connect Meta first</option></select></div>
+      <div id="adsetWrap"><label class="f">Ad set</label><select id="selAdset"><option value="">Pick a campaign first</option></select></div>
+    </div>
+    <div class="info m-pick" id="pickInfo"></div>
+    <div class="grid g2 m-new" style="margin-top:14px">
       <div><label class="f">Client / brand</label><input id="client" placeholder="e.g. Ali Coaching"></div>
       <div><label class="f">Offer</label><input id="offer" placeholder="e.g. Lead-to-Cash Install"></div>
     </div>
     <div class="grid g2" style="margin-top:14px">
-      <div>
+      <div class="m-sets">
         <label class="f">Optimize for (pixel event)</label>
         <select id="event">
           <option value="LEAD">Lead (form / opt-in)</option>
@@ -230,16 +246,16 @@
       </div>
       <div><label class="f">Landing page URL</label><input id="link" placeholder="https://"><div class="hint">UTMs are added automatically (campaign / ad set / ad names).</div></div>
     </div>
-    <div class="grid g3" style="margin-top:14px">
-      <div><label class="f">Total daily budget ($)</label><input id="budget" type="number" min="1" step="1" value="150"></div>
+    <div class="grid g3 m-sets" style="margin-top:14px">
+      <div><label class="f">Total daily budget ($)</label><input id="budget" type="number" min="1" step="1" value="150"><div class="hint" id="budgetHint"></div></div>
       <div><label class="f">Target cost per result ($)</label><input id="cpr" type="number" min="1" step="1" value="20"><div class="hint">Used for the learning-phase check.</div></div>
       <div><label class="f">Minimum age</label><select id="age"><option>18</option><option>21</option><option selected>25</option></select><div class="hint">Advantage+ audience on; age is the only hard limit.</div></div>
     </div>
-    <div style="margin-top:14px">
+    <div class="m-sets" style="margin-top:14px">
       <label class="f">Countries (broad targeting)</label>
       <div class="chips" id="countries"></div>
     </div>
-    <div style="margin-top:18px">
+    <div class="m-sets" style="margin-top:18px">
       <label class="f">Structure</label>
       <div class="structs" id="structs">
         <button class="struct" data-s="angle"><span class="rec">RECOMMENDED</span><b>Angle test</b><span>1 ad set per angle, 3–5 ads inside. ABO.</span></button>
@@ -283,7 +299,7 @@
       <label><input type="checkbox"> <span>Every result, number and testimonial in the ads is real and approved to use.</span></label>
     </div>
     <div class="row">
-      <button class="btn primary" id="launch" disabled>Build campaign in Meta (paused)</button>
+      <button class="btn primary" id="launch" disabled>Build in Meta (paused)</button>
       <span class="why" id="why"></span>
     </div>
     <div class="log" id="log"></div>
@@ -329,6 +345,7 @@ const STRUCT_LABEL = {angle:"Angle test ABO", single:"1-ad ABO", one:"Consolidat
 
 let status = null;
 let structure = "angle";
+let mode = "campaign";
 let countries = ["US","CA","GB","AU"];
 let creatives = [];  // {id,file,kind,name,angle,url,status,mediaId,thumbUrl,error}
 let angleCopy = {};  // angle -> {primary,headline}
@@ -337,10 +354,10 @@ let launching = false;
 
 // ---------- persistence (settings + copy only) ----------
 const FIELDS = ["client","offer","event","link","budget","cpr","age","primary","headline","cta","description"];
-function save(){ try{ const o={structure,countries,angleCopy}; FIELDS.forEach(f=>o[f]=$("#"+f).value); localStorage.setItem("amc-launcher",JSON.stringify(o)); }catch(e){} }
+function save(){ try{ const o={structure,countries,angleCopy,mode}; FIELDS.forEach(f=>o[f]=$("#"+f).value); if($("#budget").dataset.user!==undefined) o.budget=$("#budget").dataset.user; localStorage.setItem("amc-launcher",JSON.stringify(o)); }catch(e){} }
 function load(){ try{ const o=JSON.parse(localStorage.getItem("amc-launcher")||"null"); if(!o) return;
   FIELDS.forEach(f=>{ if(o[f]!==undefined) $("#"+f).value=o[f]; });
-  if(o.structure) structure=o.structure; if(o.countries) countries=o.countries; if(o.angleCopy) angleCopy=o.angleCopy; }catch(e){} }
+  if(o.structure) structure=o.structure; if(o.mode) mode=o.mode; if(o.countries) countries=o.countries; if(o.angleCopy) angleCopy=o.angleCopy; }catch(e){} }
 
 // ---------- Meta connector (runs in the browser, talks to Meta directly) ----------
 const API_VERSION = "v26.0";
@@ -438,8 +455,8 @@ const ACTIONS = {
   async adset(p){
     if(CFG.demo){ await sleep(300); return {id:mockId()}; }
     const j = await gPost(`act_${CFG.account}/adsets`, {
-      name:p.name, campaign_id:p.campaignId, daily_budget:Math.round(p.dailyBudget*100),
-      billing_event:"IMPRESSIONS", optimization_goal:"OFFSITE_CONVERSIONS", bid_strategy:"LOWEST_COST_WITHOUT_CAP",
+      name:p.name, campaign_id:p.campaignId, daily_budget:p.cbo?undefined:Math.round(p.dailyBudget*100),
+      billing_event:"IMPRESSIONS", optimization_goal:"OFFSITE_CONVERSIONS", bid_strategy:p.cbo?undefined:"LOWEST_COST_WITHOUT_CAP",
       promoted_object:{ pixel_id:CFG.pixelId, custom_event_type:p.event },
       attribution_spec:[{event_type:"CLICK_THROUGH", window_days:7}],
       targeting:{ geo_locations:{countries:p.countries}, age_min:p.ageMin||18, targeting_automation:{advantage_audience:1} },
@@ -465,7 +482,7 @@ const ACTIONS = {
   },
   async delete(p){
     if(CFG.demo){ await sleep(300); return {deleted:true}; }
-    await gPost(p.campaignId, {method:"delete"}); return {deleted:true};
+    for(const id of (p.ids||[p.campaignId])) await gPost(id, {method:"delete"}); return {deleted:true};
   },
 };
 
@@ -483,6 +500,48 @@ async function api(path, opts={}){
     e.message = e.info.error || e.message;
     throw e;
   }
+}
+
+// ---------- existing campaigns / ad sets ----------
+let campaigns=[], adsets=[];
+const LIVE=["ACTIVE","PAUSED"];
+function money(c){ return c? "$"+(Number(c)/100).toLocaleString(undefined,{maximumFractionDigits:2}) : ""; }
+function campLabel(c){ const cbo=c.daily_budget||c.lifetime_budget; return `${c.name} — ${c.effective_status==="ACTIVE"?"Active":"Paused"} · ${cbo?"CBO "+money(c.daily_budget||c.lifetime_budget)+(c.daily_budget?"/day":" lifetime"):"ABO"}`; }
+function setLabel(a){ return `${a.name} — ${a.effective_status==="ACTIVE"?"Active":"Paused"}${a.daily_budget?" · "+money(a.daily_budget)+"/day":""}`; }
+async function loadCampaigns(){
+  if(CFG.demo){
+    campaigns=[{id:"c1",name:"AMC | Lead-to-Cash | Cold | Broad",effective_status:"ACTIVE",objective:"OUTCOME_LEADS"},{id:"c2",name:"AMC | Webinar | CBO",effective_status:"PAUSED",objective:"OUTCOME_LEADS",daily_budget:"20000"}];
+  } else {
+    try{ campaigns = await gAll(`act_${CFG.account}/campaigns`,{fields:"id,name,effective_status,objective,daily_budget,lifetime_budget",effective_status:JSON.stringify(LIVE)}); }
+    catch(e){ campaigns=[]; $("#pickInfo").textContent="Couldn't load campaigns: "+e.message; }
+  }
+  const sel=$("#selCampaign");
+  sel.innerHTML = campaigns.length ? `<option value="">Choose a campaign…</option>`+campaigns.map(c=>`<option value="${esc(c.id)}">${esc(campLabel(c))}</option>`).join("") : `<option value="">No active or paused campaigns</option>`;
+  const saved=store.get("amc-campaign"); if(saved && campaigns.some(c=>c.id===saved)) sel.value=saved;
+  await loadAdsets();
+}
+async function loadAdsets(){
+  const cid=$("#selCampaign").value; store.set("amc-campaign",cid,true);
+  adsets=[];
+  if(cid){
+    if(CFG.demo) adsets=[{id:cid+"a1",name:"Inbox Graveyard | Broad",effective_status:"ACTIVE",daily_budget:cid==="c2"?null:"5000"},{id:cid+"a2",name:"Founder Bottleneck | Broad",effective_status:"ACTIVE",daily_budget:cid==="c2"?null:"5000"}];
+    else { try{ adsets = await gAll(`${cid}/adsets`,{fields:"id,name,effective_status,daily_budget,lifetime_budget",effective_status:JSON.stringify(LIVE)}); }catch(e){ $("#pickInfo").textContent="Couldn't load ad sets: "+e.message; } }
+  }
+  const sel=$("#selAdset");
+  sel.innerHTML = !cid ? `<option value="">Pick a campaign first</option>` : adsets.length ? `<option value="">Choose an ad set…</option>`+adsets.map(a=>`<option value="${esc(a.id)}">${esc(setLabel(a))}</option>`).join("") : `<option value="">No active or paused ad sets</option>`;
+  const saved=store.get("amc-adset"); if(saved && adsets.some(a=>a.id===saved)) sel.value=saved;
+  applyCampaign(); render();
+}
+function curCampaign(){ return campaigns.find(c=>c.id===$("#selCampaign").value)||null; }
+function curAdset(){ return adsets.find(a=>a.id===$("#selAdset").value)||null; }
+function isCbo(){ const c=curCampaign(); return mode==="campaign" && !!(c && (c.daily_budget||c.lifetime_budget)); }
+function applyCampaign(){
+  const c=curCampaign(), b=$("#budget"), h=$("#budgetHint");
+  if(isCbo()){ if(b.dataset.user===undefined) b.dataset.user=b.value; b.disabled=true; if(c.daily_budget) b.value=Number(c.daily_budget)/100; h.textContent="This campaign uses campaign budget (CBO). New ad sets share it."; }
+  else { if(b.dataset.user!==undefined){ b.value=b.dataset.user; delete b.dataset.user; } b.disabled=false; h.textContent = mode==="campaign" ? "Split across the new ad sets only. Existing ad sets keep their budgets." : ""; }
+  const info=$("#pickInfo"); const a=curAdset();
+  const paused = (mode!=="new" && c && c.effective_status!=="ACTIVE") ? ` "${c.name}" is paused, so new ads won't spend until you turn it on.` : "";
+  info.textContent = mode==="adset" && a ? `New ads go into "${a.name}". Its budget, targeting and optimization stay exactly as they are.${paused}` : mode==="campaign" && c ? `New ad sets are added inside "${c.name}". Nothing already in it is changed.${paused}` : "";
 }
 
 // ---------- connect UI ----------
@@ -532,6 +591,7 @@ async function loadAccountAssets(){
   if(!pixels.length) errs.push("No pixel found on this ad account.");
   $("#assetErr").textContent = errs.join(" ");
   await loadIg(); saveAssets();
+  await loadCampaigns();
   if(creatives.length){ creatives.forEach(c=>{ if(c.status!=="uploading"){ c.status="queued"; c.mediaId=null; c.thumbUrl=null; } }); renderCreatives(); }
   pumpUploads();
 }
@@ -559,7 +619,7 @@ function enterDemo(){
   $("#exitDemo").onclick=()=>{ CFG.demo=false; location.reload(); };
   $("#conn").innerHTML=`<span class="dot warn"></span><span>Demo mode</span>`;
   const d=$("#demo"); d.style.display="block"; d.innerHTML="<b>Demo mode</b>: click through the whole flow. Nothing is created in Meta.";
-  render(); pumpUploads();
+  render(); pumpUploads(); loadCampaigns();
 }
 $("#connectBtn").onclick=()=>{ const t=$("#token").value.trim(); if(!t){ $("#connErr").textContent="Paste your token first."; return; } store.set("amc-token",t,$("#remember").checked); $("#token").value=""; connect(); };
 $("#demoBtn").onclick=enterDemo;
@@ -567,6 +627,7 @@ $("#howBtn").onclick=()=>{ const h=$("#how"); h.style.display=h.style.display===
 $("#forget").onclick=()=>{ ["amc-token"].forEach(store.del); CFG.token=""; showDisconnected(); };
 $("#selAccount").onchange=loadAccountAssets;
 $("#selPage").onchange=async()=>{ await loadIg(); saveAssets(); };
+$("#selCampaign").onchange=loadAdsets; $("#selAdset").onchange=()=>{ store.set("amc-adset",$("#selAdset").value,true); applyCampaign(); render(); };
 $("#selIg").onchange=saveAssets; $("#selPixel").onchange=saveAssets;
 
 // ---------- creatives ----------
@@ -664,8 +725,13 @@ function plan(){
   } else if(ads.length){
     sets=[{name:`All angles | Broad ${geo} ${age}+`, angle:null, ads}];
   }
+  if(mode==="adset"){
+    const a=curAdset();
+    sets = ads.length ? [{existing:true, id:a?.id, name:a?.name||"(pick an ad set)", ads}] : [];
+    return {mode, campaignName:curCampaign()?.name||"(pick a campaign)", sets, per:0, budget:0, ev, cbo:false};
+  }
   const per = sets.length ? Math.floor(budget/sets.length*100)/100 : 0;
-  return {campaignName, sets, per, budget, ev};
+  return {mode, campaignName: mode==="campaign" ? (curCampaign()?.name||"(pick a campaign)") : campaignName, sets, per, budget, ev, cbo:isCbo()};
 }
 function eventsPerWeek(per){ const cpr=+$("#cpr").value||0; return cpr? per*7/cpr : 0; }
 function recommend(){
@@ -697,25 +763,31 @@ function renderAngles(){
 
 function render(){
   const p=plan(), ev=eventsPerWeek(p.per), rec=recommend();
-  $$(".struct").forEach(b=>{ b.classList.toggle("on",b.dataset.s===structure); b.classList.toggle("rec-on",creatives.length>0 && b.dataset.s===rec); });
+  document.body.dataset.mode=mode;
+  $$("#modes .struct").forEach(b=>b.classList.toggle("on",b.dataset.m===mode));
+  $$("#structs .struct").forEach(b=>{ b.classList.toggle("on",b.dataset.s===structure); b.classList.toggle("rec-on",creatives.length>0 && b.dataset.s===rec); });
   $("#evname").textContent=EVENT_LABEL[p.ev];
   $("#sAdsets").textContent=p.sets.length; $("#sAds").textContent=creatives.length;
-  $("#sPer").textContent="$"+(p.per%1?p.per.toFixed(2):p.per); $("#sEv").textContent=p.sets.length?ev.toFixed(ev<10?1:0):0;
+  $("#sPer").textContent= p.mode==="adset" ? "—" : p.cbo ? "CBO" : "$"+(p.per%1?p.per.toFixed(2):p.per); $("#sEv").textContent=(p.sets.length&&p.mode!=="adset")?ev.toFixed(ev<10?1:0):"—";
+  $("#sAdsets").textContent = p.mode==="adset" ? (p.sets.length?"0 new":0) : p.sets.length;
 
   const h=$("#health");
   if(!p.sets.length){ h.className="health warn"; h.textContent="Add creatives to see the plan."; }
+  else if(p.mode==="adset"){ h.className="health ok"; h.textContent="Adding ads to an existing ad set. Its budget, targeting and learning stay as they are."; }
   else if(ev>=50){ h.className="health ok"; h.textContent="Each ad set can reach ~50 results/week, enough to exit Meta's learning phase."; }
   else if(ev>=15){ h.className="health warn"; h.textContent=`~${ev.toFixed(0)} results/week per ad set. Below the 50 Meta needs to exit learning. Fewer ad sets or more budget will help.`; }
   else { h.className="health bad"; h.textContent=`~${ev.toFixed(1)} results/week per ad set. These ad sets won't exit learning. Switch to Consolidated or raise the budget.`; }
 
   const t=$("#tree");
-  t.innerHTML = p.sets.length ? `<div class="c">${esc(p.campaignName)}</div>`+p.sets.map(s=>`<div class="s">${esc(s.name)} <em>· $${p.per%1?p.per.toFixed(2):p.per}/day</em></div>`+s.ads.map(a=>`<div class="a">↳ ${esc(a.name)}</div>`).join("")).join("") : `<div class="empty">Campaign → ad sets → ads will show here.</div>`;
+  const budgetTag = s => s.existing ? "existing" : p.cbo ? "new · campaign budget" : `new · $${p.per%1?p.per.toFixed(2):p.per}/day`;
+  t.innerHTML = p.sets.length ? `<div class="c">${p.mode==="new"?"New: ":"Existing: "}${esc(p.campaignName)}</div>`+p.sets.map(s=>`<div class="s">${esc(s.name)} <em>· ${budgetTag(s)}</em></div>`+s.ads.map(a=>`<div class="a">↳ ${esc(a.name)}</div>`).join("")).join("") : `<div class="empty">Campaign → ad sets → ads will show here.</div>`;
 
   const w=[];
   const big=p.sets.filter(s=>s.ads.length>6);
   if(big.length) w.push(`${big.length} ad set(s) have more than 6 ads. Meta usually only spends on 3–4; split them by angle.`);
-  if(structure==="single") w.push("Add a 3-second video viewer exclusion to each ad set in Ads Manager before going live.");
-  if(p.budget*30<3000 && p.sets.length) w.push(`At $${p.budget}/day this test spends ~$${(p.budget*30).toLocaleString()}/month. The SOP's minimum test is $3,000.`);
+  if(p.mode==="adset" && p.sets.length && p.sets[0].ads.length>5) w.push("You're adding more than 5 ads to one ad set. Meta usually only spends on 3–4 of them.");
+  if(structure==="single" && p.mode!=="adset") w.push("Add a 3-second video viewer exclusion to each ad set in Ads Manager before going live.");
+  if(p.mode==="new" && p.budget*30<3000 && p.sets.length) w.push(`At $${p.budget}/day this test spends ~$${(p.budget*30).toLocaleString()}/month. The SOP's minimum test is $3,000.`);
   const link=$("#link").value.trim(); if(link && !/^https:\/\//.test(link)) w.push("Landing page URL should start with https://");
   if($("#headline").value.length>40) w.push("Headline is over 40 characters and may get cut off.");
   $("#warns").innerHTML=w.map(x=>`<li>${esc(x)}</li>`).join("");
@@ -733,8 +805,9 @@ function gate(){
   if(!/^https:\/\/.+\..+/.test($("#link").value.trim())) why.push("add the landing page URL");
   if(!$("#primary").value.trim()) why.push("write the primary text");
   if(!$("#headline").value.trim()) why.push("write a headline");
-  if(!(+$("#budget").value>0)) why.push("set a budget");
-  if(!countries.length) why.push("pick at least one country");
+  if(mode!=="adset"){ if(!(+$("#budget").value>0)) why.push("set a budget"); if(!countries.length) why.push("pick at least one country"); }
+  if(mode!=="new" && !$("#selCampaign").value) why.push("pick the campaign");
+  if(mode==="adset" && !$("#selAdset").value) why.push("pick the ad set");
   if($$("#checks input").some(i=>!i.checked)) why.push("tick the pre-flight checks");
   if(!status) why.push("connect Meta (step 0)");
   else if(!status.demo){ if(status.account?.account_status!==1) why.push("pick an active ad account"); if(!CFG.pageId) why.push("pick a Facebook Page"); if(!CFG.pixelId) why.push("pick a pixel"); }
@@ -749,13 +822,21 @@ async function launch(){
   launching=true; gate(); $("#log").innerHTML="";
   const p=plan(); const out={adsetIds:[],adIds:[]};
   try{
-    log(`Creating campaign: ${p.campaignName}`);
-    const camp=await api("/api/campaign",{method:"POST",body:JSON.stringify({name:p.campaignName,event:p.ev})});
-    out.campaignId=camp.id; log(`✓ Campaign ${camp.id}`,"ok");
+    out.mode=p.mode;
+    let camp;
+    if(p.mode==="new"){
+      log(`Creating campaign: ${p.campaignName}`);
+      camp=await api("/api/campaign",{method:"POST",body:JSON.stringify({name:p.campaignName,event:p.ev})});
+      out.campaignId=camp.id; out.newCampaign=true; log(`✓ Campaign ${camp.id}`,"ok");
+    } else { camp={id:$("#selCampaign").value}; out.campaignId=camp.id; log(`Using existing campaign: ${p.campaignName}`); }
     for(const s of p.sets){
-      log(`Creating ad set: ${s.name}`);
-      const as=await api("/api/adset",{method:"POST",body:JSON.stringify({name:s.name,campaignId:camp.id,dailyBudget:p.per,countries,ageMin:+$("#age").value,event:p.ev})});
-      out.adsetIds.push(as.id); log(`✓ Ad set ${as.id}`,"ok");
+      let as;
+      if(s.existing){ as={id:s.id}; log(`Adding to existing ad set: ${s.name}`); }
+      else {
+        log(`Creating ad set: ${s.name}`);
+        as=await api("/api/adset",{method:"POST",body:JSON.stringify({name:s.name,campaignId:camp.id,dailyBudget:p.per,cbo:p.cbo,countries,ageMin:+$("#age").value,event:p.ev})});
+        out.adsetIds.push(as.id); log(`✓ Ad set ${as.id}`,"ok");
+      }
       for(const a of s.ads){
         const copy=copyFor(a.c.angle);
         const r=await api("/api/ad",{method:"POST",body:JSON.stringify({adsetId:as.id,copy,ad:{name:a.name,kind:a.c.kind,mediaId:a.c.mediaId,thumbUrl:a.c.thumbUrl}})});
@@ -766,16 +847,17 @@ async function launch(){
     built=out;
     const acct=(status?.account?.id||"").replace(/^act_/,"");
     $("#openAM").href=`https://adsmanager.facebook.com/adsmanager/manage/campaigns?act=${acct}&selected_campaign_ids=${out.campaignId}`;
-    $("#doneTxt").innerHTML=`1 campaign, ${out.adsetIds.length} ad set(s), ${out.adIds.length} ad(s), all paused. Budget when live: <b>$${p.budget}/day</b>.${status?.demo?" <i>(Demo mode: nothing was created in Meta.)</i>":""}`;
+    const what = p.mode==="adset" ? `${out.adIds.length} new ad(s) added to "${esc(p.sets[0].name)}", paused. Its budget is unchanged.` : p.mode==="campaign" ? `${out.adsetIds.length} new ad set(s) with ${out.adIds.length} ad(s) added to "${esc(p.campaignName)}", all paused.${p.cbo?" They share the campaign budget.":` New budget when live: <b>$${p.budget}/day</b>.`}` : `1 campaign, ${out.adsetIds.length} ad set(s), ${out.adIds.length} ad(s), all paused. Budget when live: <b>$${p.budget}/day</b>.`;
+    $("#doneTxt").innerHTML= what + (status?.demo?" <i>(Demo mode: nothing was created in Meta.)</i>":"");
     $("#done").style.display="block";
     log("Done. Review it in Ads Manager, then press Go live.","ok");
   }catch(e){
     const i=e.info||{};
     log(`✗ ${e.message}${i.detail?" ("+i.detail+")":""}${i.subcode?" [subcode "+i.subcode+"]":""}`,"err");
-    if(out.campaignId){
+    if(out.newCampaign || out.adsetIds.length || out.adIds.length){
       built=out; $("#done").style.display="block"; $("#golive").style.display="none";
       $("#done h3").textContent="Stopped part-way";
-      $("#doneTxt").textContent="The campaign was partly built and is paused. Delete the draft, fix the issue above, and build again.";
+      $("#doneTxt").textContent="It stopped part-way. Everything it made is paused. Click Delete draft to remove only what it just made, fix the issue above, and build again.";
       const acct=(status?.account?.id||"").replace(/^act_/,"");
       $("#openAM").href=`https://adsmanager.facebook.com/adsmanager/manage/campaigns?act=${acct}&selected_campaign_ids=${out.campaignId}`;
     }
@@ -783,16 +865,19 @@ async function launch(){
   launching=false; gate();
 }
 
-$("#golive").onclick=()=>{ const p=plan(); $("#confirmTxt").innerHTML=`This turns on ${built.adIds.length} ad(s) across ${built.adsetIds.length} ad set(s) and starts spending about <b>$${p.budget}/day</b>.`; $("#confirm").style.display="block"; };
+$("#golive").onclick=()=>{ const p=plan(); const c=curCampaign();
+  const spend = built.mode==="adset" ? "They spend from the ad set's existing budget." : (built.mode==="campaign" && p.cbo) ? "They share the campaign's existing budget." : `This adds about <b>$${p.budget}/day</b> of spend.`;
+  const paused = built.mode!=="new" && c && c.effective_status!=="ACTIVE" ? ` Note: "${esc(c.name)}" is paused, so nothing spends until you turn it on in Ads Manager.` : "";
+  $("#confirmTxt").innerHTML=`This turns on ${built.adIds.length} new ad(s)${built.adsetIds.length?` and ${built.adsetIds.length} new ad set(s)`:""}. ${spend}${paused}`; $("#confirm").style.display="block"; };
 $("#confirmNo").onclick=()=>$("#confirm").style.display="none";
 $("#confirmYes").onclick=async()=>{
   $("#confirm").style.display="none";
-  try{ await api("/api/activate",{method:"POST",body:JSON.stringify(built)}); log("✓ Live. Ads are now in Meta's review.","ok"); $("#golive").style.display="none"; $("#del").style.display="none"; $("#done h3").textContent="Live — ads are in Meta review"; $("#doneTxt").innerHTML=`${built.adIds.length} ad(s) across ${built.adsetIds.length} ad set(s) are on. They start delivering once Meta approves them.`; }
+  try{ await api("/api/activate",{method:"POST",body:JSON.stringify({adIds:built.adIds, adsetIds:built.adsetIds, campaignId: built.newCampaign?built.campaignId:null})}); log("✓ Live. Ads are now in Meta's review.","ok"); $("#golive").style.display="none"; $("#del").style.display="none"; $("#done h3").textContent="Live — ads are in Meta review"; $("#doneTxt").innerHTML=`${built.adIds.length} new ad(s) are on. They start delivering once Meta approves them.`; }
   catch(e){ log("✗ Couldn't go live: "+e.message,"err"); }
 };
 $("#del").onclick=async()=>{
   if($("#del").dataset.armed!=="1"){ $("#del").dataset.armed="1"; $("#del").textContent="Click again to delete"; return; }
-  try{ await api("/api/delete",{method:"POST",body:JSON.stringify({campaignId:built.campaignId})}); log("Draft deleted.","w"); built=null; $("#done").style.display="none"; $("#golive").style.display=""; $("#done h3").textContent="Built and paused in Meta"; gate(); }
+  try{ await api("/api/delete",{method:"POST",body:JSON.stringify( built.newCampaign ? {ids:[built.campaignId]} : {ids: built.mode==="adset" ? built.adIds : built.adsetIds} )}); log("Draft deleted.","w"); built=null; $("#done").style.display="none"; $("#golive").style.display=""; $("#done h3").textContent="Built and paused in Meta"; gate(); }
   catch(e){ log("✗ Couldn't delete: "+e.message,"err"); }
   $("#del").dataset.armed=""; $("#del").textContent="Delete draft";
 };
@@ -805,7 +890,8 @@ function renderCountries(){
 }
 load();
 FIELDS.forEach(f=>$("#"+f).addEventListener("input",render));
-$$(".struct").forEach(b=>b.onclick=()=>{ structure=b.dataset.s; render(); });
+$$("#structs .struct").forEach(b=>b.onclick=()=>{ structure=b.dataset.s; render(); });
+$$("#modes .struct").forEach(b=>b.onclick=()=>{ mode=b.dataset.m; applyCampaign(); render(); });
 $$("#checks input").forEach(i=>i.onchange=gate);
 const drop=$("#drop");
 drop.onclick=()=>$("#file").click();
